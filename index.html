@@ -1,0 +1,3692 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Je Réussis BHDS 🎓</title>
+<meta name="description" content="Jeu éducatif guinéen — Collection BHDS">
+<meta name="theme-color" content="#0b0f1e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BHDS">
+<!-- Manifest PWA inline via data URI -->
+<link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Je%20R%C3%A9ussis%20BHDS%22,%22short_name%22:%22BHDS%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%230b0f1e%22,%22theme_color%22:%22%230b0f1e%22,%22description%22:%22Jeu%20%C3%A9ducatif%20guin%C3%A9en%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20rx%3D'80'%20fill%3D'%230b0f1e'%2F%3E%3Ctext%20x%3D'256'%20y%3D'340'%20font-size%3D'300'%20text-anchor%3D'middle'%3E%F0%9F%8E%93%3C%2Ftext%3E%3C%2Fsvg%3E%22,%22sizes%22:%22512x512%22,%22type%22:%22image/svg+xml%22,%22purpose%22:%22any%20maskable%22}]}">
+<!-- Polices hors ligne — pas de dépendance réseau -->
+<style>
+@font-face {
+  font-family: 'Fredoka One';
+  src: local('Arial Rounded MT Bold'), local('Trebuchet MS'), local('Comic Sans MS'), local('cursive');
+  font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: local('Segoe UI'), local('Ubuntu'), local('Helvetica Neue'), local('Arial');
+  font-weight: 400 900; font-display: swap;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: local('Courier New'), local('Lucida Console'), local('Consolas'), local('Monaco');
+  font-weight: 700; font-display: swap;
+}
+</style>
+<style>
+:root {
+  --bg: #0b0f1e;
+  --card: #111827;
+  --text: #f0f4ff;
+  --accent: #a78bfa;
+  --gold: #fbbf24;
+  --green: #34d399;
+  --red: #f87171;
+  --teal: #4ecdc4;
+  --orange: #fb923c;
+  --blue: #60a5fa;
+  --pink: #f472b6;
+  --indigo: #818cf8;
+  --kente-r: #CE1126;
+  --kente-y: #FCD116;
+  --kente-g: #009460;
+  /* Transitions globales pour le changement de thème */
+  --theme-transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* ===== MODE CLAIR ===== */
+body.light-mode {
+  --bg: #f0f2f8;
+  --card: #ffffff;
+  --text: #1a1f36;
+  --accent: #7c3aed;
+  --gold: #d97706;
+  --green: #059669;
+  --red: #dc2626;
+  --teal: #0d9488;
+  --orange: #ea580c;
+  --blue: #2563eb;
+  --pink: #db2777;
+  --indigo: #4f46e5;
+}
+
+/* En mode clair : adapter le fond et les cartes */
+body.light-mode {
+  background: linear-gradient(135deg, #eef0f8 0%, #f4f1ff 50%, #eef5ff 100%);
+}
+
+body.light-mode body::before { opacity: 0.15; }
+
+body.light-mode .game-card {
+  border-color: rgba(124,58,237,0.15);
+  box-shadow: 0 8px 40px rgba(124,58,237,0.08), 0 2px 12px rgba(0,0,0,0.06);
+}
+
+body.light-mode .wa-header {
+  background: linear-gradient(180deg, rgba(240,242,248,0.99) 0%, rgba(244,241,255,0.97) 100%);
+  border-bottom-color: rgba(124,58,237,0.15);
+}
+
+body.light-mode .level-tab {
+  background: rgba(0,0,0,0.05);
+  color: var(--text);
+}
+
+body.light-mode .corridor {
+  background: linear-gradient(160deg, #e8ecf8 0%, #edf0ff 40%, #e6eaf8 70%, #dde3f5 100%);
+  border-color: rgba(124,58,237,0.2);
+}
+
+body.light-mode .subject-row {
+  background: rgba(124,58,237,0.03);
+  border-color: rgba(124,58,237,0.12);
+}
+body.light-mode .subject-row label {
+  color: rgba(26,31,54,0.85);
+  background: rgba(124,58,237,0.03);
+  border-color: rgba(124,58,237,0.1);
+}
+body.light-mode .subject-row label:hover {
+  background: rgba(124,58,237,0.08);
+}
+
+body.light-mode #player-name-input {
+  background: rgba(124,58,237,0.05);
+  border-color: rgba(124,58,237,0.3);
+  color: var(--text);
+}
+body.light-mode #player-name-input:focus {
+  background: rgba(124,58,237,0.08);
+}
+
+body.light-mode .note-input {
+  background: rgba(124,58,237,0.05);
+  border-color: rgba(124,58,237,0.25);
+  color: var(--text);
+}
+
+body.light-mode .hint-box {
+  background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(13,148,136,0.04));
+  border-color: rgba(124,58,237,0.15);
+  color: rgba(26,31,54,0.8);
+}
+
+body.light-mode .wa-bubble-inner {
+  background: linear-gradient(145deg, rgba(255,255,255,0.97), rgba(124,58,237,0.06) 50%, rgba(255,255,255,0.97));
+  border-color: rgba(124,58,237,0.35);
+  box-shadow: 0 8px 30px rgba(124,58,237,0.1);
+}
+
+body.light-mode .wa-bubble-tail {
+  background: rgba(244,241,255,0.97);
+  border-left-color: rgba(124,58,237,0.35);
+  border-bottom-color: rgba(124,58,237,0.35);
+}
+
+body.light-mode .progress-bar-wrap {
+  background: rgba(0,0,0,0.08);
+}
+
+body.light-mode .stat-card {
+  background: rgba(124,58,237,0.04);
+  border-color: rgba(124,58,237,0.15);
+}
+
+body.light-mode .score-pill {
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.1);
+}
+
+body.light-mode .wa-qs-badge {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.08);
+  color: rgba(26,31,54,0.7);
+}
+
+body.light-mode .perso-box {
+  background: linear-gradient(135deg, #f4f1ff, #ffffff);
+  border-color: rgba(124,58,237,0.25);
+}
+
+body.light-mode .perso-card {
+  background: rgba(124,58,237,0.05);
+  border-color: rgba(124,58,237,0.12);
+}
+
+body.light-mode .perso-card:hover {
+  background: rgba(124,58,237,0.1);
+  border-color: rgba(124,58,237,0.35);
+}
+
+body.light-mode .perso-card.selected {
+  background: rgba(124,58,237,0.15);
+}
+
+body.light-mode .px-div {
+  border-color: rgba(124,58,237,0.12);
+}
+
+body.light-mode .door-open-left,
+body.light-mode .door-open-right {
+  background: linear-gradient(135deg, #eef0f8, #f0f2ff);
+}
+
+body.light-mode .speech-bubble::after {
+  border-bottom-color: #ffffff;
+}
+
+body.light-mode .wa-level-card {
+  background: linear-gradient(160deg, #ffffff 0%, rgba(240,242,255,0.9) 100%);
+  box-shadow: 0 4px 20px rgba(124,58,237,0.08), 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* Transition fluide sur tous les éléments */
+body, .game-card, .wa-header, .corridor, .subject-row,
+.level-tab, .stat-card, .score-pill, .wa-bubble-inner,
+.hint-box, .perso-box, .perso-card, .wa-level-card,
+#player-name-input, .note-input, .px-div {
+  transition: var(--theme-transition);
+}
+
+/* ===== BOUTON TOGGLE MODE ===== */
+.theme-toggle-btn {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 500;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  background: linear-gradient(135deg, #1e2a4a, #2d1f5e);
+  border: 1.5px solid rgba(167,139,250,0.4);
+  overflow: hidden;
+}
+
+body.light-mode .theme-toggle-btn {
+  background: linear-gradient(135deg, #f0f4ff, #ede9fe);
+  border-color: rgba(124,58,237,0.3);
+  box-shadow: 0 4px 20px rgba(124,58,237,0.2);
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.12) rotate(15deg);
+  box-shadow: 0 8px 30px rgba(167,139,250,0.4);
+}
+body.light-mode .theme-toggle-btn:hover {
+  box-shadow: 0 8px 30px rgba(124,58,237,0.3);
+}
+
+.theme-toggle-btn:active { transform: scale(0.95); }
+
+.theme-toggle-btn .toggle-icon {
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s;
+  line-height: 1;
+}
+
+/* Tooltip */
+.theme-toggle-btn::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(10,12,28,0.92);
+  color: #f0f4ff;
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(167,139,250,0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+body.light-mode .theme-toggle-btn::before {
+  background: rgba(240,242,255,0.97);
+  color: #1a1f36;
+  border-color: rgba(124,58,237,0.2);
+}
+.theme-toggle-btn:hover::before { opacity: 1; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', 'Segoe UI', 'Ubuntu', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== STARFIELD ===== */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 5% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 18% 42%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 33% 8%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 47% 67%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 62% 22%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 12%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 92% 78%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 88%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 95%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 60%, rgba(167,139,250,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 38%, rgba(78,205,196,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 50%, rgba(251,191,36,0.3) 0%, transparent 100%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ===== SCREENS ===== */
+.screen {
+  display: none;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeSlide 0.4s ease;
+}
+.screen.active { display: flex; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== APP WRAPPER ===== */
+.app-wrap {
+  max-width: 720px;
+  width: 100%;
+}
+
+/* ===== FLAG ===== */
+.flag {
+  display: flex;
+  width: 44px; height: 26px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+.flag div { flex: 1; }
+.flag .r { background: #CE1126; }
+.flag .y { background: #FCD116; }
+.flag .g { background: #009460; }
+
+/* ===== WELCOME TITLE ===== */
+.title {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
+  background: linear-gradient(135deg, #a78bfa, #60a5fa, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titlePulse 3s ease-in-out infinite;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  text-align: center;
+}
+@keyframes titlePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.02)} }
+
+.subtitle {
+  font-size: 0.78rem;
+  opacity: 0.5;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Ruban drapeau guinéen */
+.flag-ribbon {
+  display: flex;
+  height: 4px;
+  width: 60%;
+  margin: 0 auto 18px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+.flag-ribbon .r { flex:1; background: #CE1126; }
+.flag-ribbon .y { flex:1; background: #FCD116; }
+.flag-ribbon .g { flex:1; background: #009460; }
+
+/* ===== GAME CARD / MAIN PANEL ===== */
+.game-card {
+  background: var(--card);
+  border-radius: 24px;
+  padding: 28px;
+  border: 1.5px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 50px rgba(0,0,0,0.5);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--kente-r), var(--kente-y), var(--kente-g), var(--accent), var(--teal));
+  border-radius: 24px 24px 0 0;
+}
+
+/* ===== DIVIDER ===== */
+.px-div {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin: 16px 0;
+}
+
+/* ===== PROF AREA ===== */
+.prof-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0 20px;
+  position: relative;
+}
+
+.prof-peek-stage {
+  position: relative;
+  width: 140px;
+  height: 80px;
+  overflow: hidden;
+  margin-bottom: -4px;
+}
+
+.prof-sprite {
+  width: 140px;
+  height: 175px;
+  position: absolute;
+  top: 0; left: 0;
+  animation: profBob 1.8s ease-in-out infinite;
+}
+@keyframes profBob {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.prof-sprite svg { width: 100%; height: 100%; }
+
+.prof-floor {
+  width: 160px;
+  height: 6px;
+  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.3) 20%, rgba(78,205,196,0.3) 50%, rgba(167,139,250,0.3) 80%, transparent);
+  border-radius: 3px;
+  margin-bottom: 14px;
+}
+
+/* ===== SPEECH BUBBLE ===== */
+.speech-bubble {
+  background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(78,205,196,0.08));
+  color: var(--text);
+  border: 1.5px solid rgba(167,139,250,0.35);
+  padding: 14px 20px;
+  border-radius: 16px;
+  position: relative;
+  max-width: 440px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.6;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: -15px; left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-bottom-color: rgba(167,139,250,0.35);
+}
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -12px; left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #111827;
+}
+.speech-bubble strong { color: var(--accent); }
+.speech-bubble em { color: var(--teal); }
+
+/* ===== BUTTONS ===== */
+.btn {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 1rem;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.22s;
+  margin: 6px;
+  letter-spacing: 0.3px;
+}
+.btn-gold {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #1a0a00;
+  box-shadow: 0 4px 20px rgba(251,191,36,0.3);
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(251,191,36,0.45); }
+.btn-gold:active { transform: translateY(0); }
+
+.btn-green {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 4px 20px rgba(52,211,153,0.3);
+}
+.btn-green:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(52,211,153,0.45); }
+.btn-green:active { transform: translateY(0); }
+
+.btn-red {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: white;
+  box-shadow: 0 4px 20px rgba(248,113,113,0.3);
+}
+.btn-red:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(248,113,113,0.45); }
+.btn-red:active { transform: translateY(0); }
+
+.btn-blue {
+  background: linear-gradient(135deg, #3b82f6, #7c3aed);
+  color: white;
+  box-shadow: 0 4px 20px rgba(167,139,250,0.3);
+}
+.btn-blue:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(167,139,250,0.45); }
+.btn-blue:active { transform: translateY(0); }
+
+/* ===== NAME INPUT ===== */
+#player-name-input {
+  background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(167,139,250,0.35);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 14px;
+  outline: none;
+  text-align: center;
+  width: 260px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#player-name-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(167,139,250,0.15);
+}
+#player-name-input::placeholder { opacity: 0.4; }
+
+/* ===== HINT BOX ===== */
+.hint-box {
+  background: linear-gradient(135deg, rgba(167,139,250,0.07), rgba(78,205,196,0.05));
+  border: 1px solid rgba(167,139,250,0.2);
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(240,244,255,0.75);
+  margin: 12px 0;
+  line-height: 1.8;
+}
+.hint-box strong { color: var(--accent); }
+
+/* ===== CORRIDOR SCREEN ===== */
+#screen-corridor { background: transparent; }
+
+.corridor-header {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #a78bfa, #60a5fa, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+/* ===== LEVEL TABS ===== */
+.level-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.level-tab {
+  padding: 9px 22px;
+  border-radius: 30px;
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  touch-action: manipulation;
+}
+.level-tab.primaire { border-color: var(--green); }
+.level-tab.college  { border-color: var(--blue); }
+.level-tab.lycee    { border-color: var(--orange); }
+.level-tab.active, .level-tab:hover { color: #fff; }
+.level-tab.primaire.active, .level-tab.primaire:hover { background: linear-gradient(135deg, #10b981, #059669); border-color: transparent; }
+.level-tab.college.active, .level-tab.college:hover   { background: linear-gradient(135deg, #3b82f6, #7c3aed); border-color: transparent; }
+.level-tab.lycee.active, .level-tab.lycee:hover       { background: linear-gradient(135deg, #ea580c, #d97706); border-color: transparent; }
+
+/* ===== CORRIDOR MAP ===== */
+.corridor {
+  width: 100%;
+  max-width: 700px;
+  background: linear-gradient(160deg, #0a1628 0%, #0d1f3c 40%, #0a1835 70%, #081428 100%);
+  border: 1.5px solid rgba(167,139,250,0.2);
+  border-radius: 24px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(107,203,119,0.05), 0 20px 60px rgba(0,0,0,0.5);
+}
+.corridor::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.006) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+.corridor::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none;
+}
+
+.corridor-title {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== DOORS ROW ===== */
+.doors-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== DOOR ===== */
+.door-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.door {
+  width: 66px;
+  height: 92px;
+  border-radius: 12px 12px 4px 4px;
+  border: 2.5px solid;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.door:hover { transform: scale(1.1) translateY(-5px); }
+
+.door.locked { opacity: 0.3; cursor: not-allowed; filter: grayscale(0.8); }
+.door.unlocked { animation: doorGlow 2s ease-in-out infinite; }
+.door.passed {
+  background: linear-gradient(180deg, rgba(5,150,105,0.25), rgba(2,90,60,0.25)) !important;
+  border-color: var(--green) !important;
+  box-shadow: 0 0 18px rgba(52,211,153,0.4), inset 0 0 20px rgba(52,211,153,0.06) !important;
+}
+
+@keyframes doorGlow {
+  0%,100% { filter: brightness(1); }
+  50%      { filter: brightness(1.3) drop-shadow(0 0 8px currentColor); }
+}
+
+.door.primaire-door {
+  background: linear-gradient(180deg, rgba(16,185,129,0.12), rgba(5,80,50,0.15));
+  border-color: var(--green);
+}
+.door.college-door {
+  background: linear-gradient(180deg, rgba(96,165,250,0.12), rgba(37,99,235,0.1));
+  border-color: var(--blue);
+}
+.door.lycee-door {
+  background: linear-gradient(180deg, rgba(251,146,60,0.12), rgba(194,65,12,0.1));
+  border-color: var(--orange);
+}
+
+.door-number {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.7rem;
+  position: absolute;
+  top: 7px;
+  opacity: 0.7;
+}
+.door-icon { font-size: 20px; margin-top: 6px; }
+.door-knob {
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 18px; right: 7px;
+  box-shadow: 0 0 6px rgba(251,191,36,0.7);
+}
+.door-label {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.6rem;
+  color: rgba(240,244,255,0.7);
+  text-align: center;
+  max-width: 72px;
+  line-height: 1.5;
+}
+
+/* ===== PLAYER POSITION ===== */
+.player-pos {
+  text-align: center;
+  margin: 14px 0 4px;
+  font-size: 0.85rem;
+  position: relative;
+  z-index: 1;
+}
+.player-pos span {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+.player-sprite {
+  display: inline-block;
+  animation: playerBob 1.4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.8));
+  vertical-align: middle;
+}
+@keyframes playerBob {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar-wrap {
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  height: 8px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, var(--kente-r), var(--kente-y), var(--kente-g), var(--accent));
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation: shine 2s infinite;
+}
+@keyframes shine { to { left: 100%; } }
+
+/* ===== EXAM SCREEN ===== */
+.exam-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.exam-lives { font-size: 1.3rem; letter-spacing: 3px; }
+.exam-class-badge {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.9rem;
+  padding: 7px 18px;
+  background: linear-gradient(135deg, var(--gold), #d97706);
+  color: #1a0800;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(251,191,36,0.3);
+}
+
+/* SUBJECTS GRID */
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.subject-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(167,139,250,0.15);
+  padding: 12px;
+  border-radius: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.subject-row:hover { border-color: rgba(167,139,250,0.4); box-shadow: 0 0 16px rgba(167,139,250,0.08); }
+.subject-name { font-size: 0.85rem; font-weight: 800; color: var(--accent); }
+.subject-coef { font-size: 0.78rem; color: rgba(240,244,255,0.5); }
+
+/* QCM choices */
+.subject-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(240,244,255,0.8);
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.08);
+  transition: all 0.18s;
+  background: rgba(255,255,255,0.03);
+}
+.subject-row label:hover { background: rgba(167,139,250,0.1); border-color: rgba(167,139,250,0.35); }
+input[type="radio"] { accent-color: var(--accent); }
+
+.note-input {
+  width: 64px;
+  padding: 7px 10px;
+  background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(167,139,250,0.3);
+  color: var(--text);
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 1.1rem;
+  text-align: center;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+}
+.note-input:focus { border-color: var(--green); box-shadow: 0 0 10px rgba(52,211,153,0.3); }
+.note-input.error { border-color: var(--red); box-shadow: 0 0 8px rgba(248,113,113,0.3); }
+
+.requirement-info {
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(240,244,255,0.6);
+  margin-bottom: 12px;
+}
+.requirement-info strong { color: var(--gold); }
+
+/* ===== MOYENNE DISPLAY ===== */
+.moyenne-display {
+  text-align: center;
+  padding: 20px;
+  margin: 14px 0;
+  border: 2px solid;
+  border-radius: 20px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.moyenne-display.good {
+  border-color: var(--green);
+  background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(5,150,105,0.05));
+  box-shadow: 0 0 30px rgba(52,211,153,0.15), inset 0 0 40px rgba(52,211,153,0.04);
+}
+.moyenne-display.bad {
+  border-color: var(--red);
+  background: linear-gradient(135deg, rgba(248,113,113,0.08), rgba(185,28,28,0.05));
+  box-shadow: 0 0 30px rgba(248,113,113,0.15);
+}
+.moyenne-display.none { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); }
+.moyenne-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 800;
+  color: rgba(240,244,255,0.4);
+  margin-bottom: 8px;
+}
+.moyenne-value {
+  font-family: 'Orbitron', 'Courier New', 'Lucida Console', monospace;
+  font-size: 46px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+.moyenne-display.good .moyenne-value { color: var(--green); text-shadow: 0 0 30px var(--green); }
+.moyenne-display.bad  .moyenne-value { color: var(--red);   text-shadow: 0 0 30px var(--red); }
+.moyenne-display.none .moyenne-value { color: rgba(255,255,255,0.2); }
+
+/* ===== RESULT SCREEN ===== */
+.result-box {
+  text-align: center;
+  padding: 24px;
+}
+.result-emoji {
+  font-size: 4.5rem;
+  margin-bottom: 14px;
+  animation: resultPop 0.5s cubic-bezier(0.17,0.89,0.32,1.28);
+}
+@keyframes resultPop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.result-title {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+.result-title.win  { color: var(--green); text-shadow: 0 0 20px rgba(52,211,153,0.5); }
+.result-title.lose { color: var(--red);   text-shadow: 0 0 20px rgba(248,113,113,0.5); }
+.result-msg { font-size: 0.95rem; line-height: 1.7; margin-bottom: 18px; font-weight: 600; opacity: 0.85; }
+
+/* ===== STATS SCREEN ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+.stat-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(167,139,250,0.2);
+  padding: 16px;
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.25s;
+}
+.stat-card:hover { border-color: rgba(167,139,250,0.5); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(167,139,250,0.1); }
+.stat-card .stat-val {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--accent), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-card .stat-lbl { font-size: 0.72rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; font-weight: 800; }
+
+/* ===== CONFETTI ===== */
+.confetti-container {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 9px; height: 9px;
+  border-radius: 2px;
+  top: -20px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ===== DOOR OPEN ANIMATION ===== */
+.door-open-anim {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.door-open-left, .door-open-right {
+  position: fixed; top: 0; bottom: 0;
+  width: 50vw;
+  background: linear-gradient(135deg, #0a1628, #0d1f3c);
+  border: 3px solid rgba(167,139,250,0.3);
+  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.door-open-left  { left: 0;  transform-origin: left center; }
+.door-open-right { right: 0; transform-origin: right center; }
+.flash-white {
+  position: fixed; inset: 0;
+  background: white;
+  z-index: 200; opacity: 0;
+  pointer-events: none;
+}
+
+
+/* ===== ÉLÈVES AFRICAINS PAR CLASSE ===== */
+.student-sprite {
+  width: 38px;
+  height: 52px;
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  animation: studentBob 2s ease-in-out infinite;
+}
+@keyframes studentBob {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-3px); }
+}
+.door-wrap { position: relative; }
+
+
+/* ===== PERSONNAGE MODAL ===== */
+.perso-modal {
+  display: none;
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+}
+.perso-modal.show { display: flex; }
+.perso-box {
+  background: linear-gradient(135deg, #0e1420, #111827);
+  border: 1px solid rgba(167,139,250,0.35);
+  border-radius: 24px;
+  padding: 28px 24px;
+  max-width: 380px;
+  width: 92%;
+  text-align: center;
+}
+.perso-title {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 1.3rem;
+  background: linear-gradient(135deg, #a78bfa, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.perso-subtitle {
+  font-size: 0.78rem;
+  opacity: 0.5;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.perso-group-label {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.45;
+  margin: 14px 0 8px;
+}
+.perso-grid {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.perso-card {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 10px 8px;
+  cursor: pointer;
+  transition: all 0.22s;
+  min-width: 68px;
+}
+.perso-card:hover { background: rgba(167,139,250,0.15); border-color: rgba(167,139,250,0.5); transform: translateY(-3px); }
+.perso-card.selected { background: rgba(167,139,250,0.22); border-color: var(--accent); box-shadow: 0 0 16px rgba(167,139,250,0.4); }
+.perso-emoji-big { font-size: 2.2rem; display: block; }
+.perso-name { font-size: 0.62rem; opacity: 0.6; margin-top: 4px; font-weight: 700; }
+.perso-close {
+  margin-top: 20px;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  border: none; border-radius: 12px;
+  color: white; cursor: pointer;
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 1rem; padding: 10px 32px;
+  transition: all 0.2s;
+}
+.perso-close:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(167,139,250,0.4); }
+
+/* Bouton personnage dans header couloir */
+.perso-btn-corridor {
+  background: rgba(167,139,250,0.15);
+  border: 1.5px solid rgba(167,139,250,0.4);
+  border-radius: 50%;
+  width: 42px; height: 42px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.perso-btn-corridor:hover { background: rgba(167,139,250,0.3); transform: scale(1.1); }
+
+/* Badge joueur dans la porte */
+.door-player {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.45rem;
+  z-index: 3;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.8));
+  animation: playerBob 1.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ===== PROF CONSEIL ANIMATIONS ===== */
+@keyframes profShimmer {
+  0%,100% { transform: translateX(-100%); }
+  50%      { transform: translateX(200%); }
+}
+@keyframes badgePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(248,113,113,0); }
+  50%      { box-shadow: 0 0 0 6px rgba(248,113,113,0.15); }
+}
+@keyframes typewriter {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes profShake {
+  0%,100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-8deg); }
+  75%      { transform: rotate(8deg); }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent), var(--teal)); border-radius: 3px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 500px) {
+  .door { width: 54px; height: 76px; }
+  .subjects-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .title { font-size: 1.6rem; }
+  .game-card { padding: 18px; }
+}
+
+/* ===== SCORE PILLS (corridor) ===== */
+.score-pill-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px 0;
+}
+.score-pill {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 30px;
+  padding: 5px 14px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Nunito', sans-serif;
+}
+/* =============================================
+   WELCOME SCREEN — style carte aventure V2
+   ============================================= */
+
+/* Header */
+.wa-header {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(7,9,22,0.99) 0%, rgba(11,15,30,0.97) 100%);
+  border-bottom: 1px solid rgba(167,139,250,0.12);
+  position: sticky; top: 0; z-index: 10;
+  padding: 14px 20px 0;
+}
+.wa-header-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.wa-title {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: clamp(1.7rem, 6vw, 2.8rem);
+  background: linear-gradient(135deg, #c4b5fd 0%, #67e8f9 45%, #6ee7b7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titlePulse 3s ease-in-out infinite;
+  line-height: 1;
+  text-shadow: none;
+  letter-spacing: -0.5px;
+}
+.wa-subtitle {
+  font-size: 0.7rem;
+  opacity: 0.5;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+/* Barre kente animée */
+.kente-bar {
+  display: flex;
+  height: 5px;
+  width: 100%;
+  overflow: hidden;
+}
+.kente-bar span {
+  flex: 1;
+  animation: kenteCycle 4s linear infinite;
+}
+.kente-bar span:nth-child(1)  { background:#CE1126; animation-delay:0s; }
+.kente-bar span:nth-child(2)  { background:#FCD116; animation-delay:0.2s; }
+.kente-bar span:nth-child(3)  { background:#009460; animation-delay:0.4s; }
+.kente-bar span:nth-child(4)  { background:#a78bfa; animation-delay:0.6s; }
+.kente-bar span:nth-child(5)  { background:#4ecdc4; animation-delay:0.8s; }
+.kente-bar span:nth-child(6)  { background:#CE1126; animation-delay:1.0s; }
+.kente-bar span:nth-child(7)  { background:#FCD116; animation-delay:1.2s; }
+.kente-bar span:nth-child(8)  { background:#009460; animation-delay:1.4s; }
+.kente-bar span:nth-child(9)  { background:#a78bfa; animation-delay:1.6s; }
+.kente-bar span:nth-child(10) { background:#4ecdc4; animation-delay:1.8s; }
+@keyframes kenteCycle {
+  0%,100% { opacity:1; }
+  50%     { opacity:0.5; }
+}
+
+/* ===== HERO SECTION REDESIGN ===== */
+.wa-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 28px 20px 16px;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* Fond radial subtil derrière le hero */
+.wa-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(167,139,250,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 50%, rgba(78,205,196,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ===== PROF AVATAR V2 — carte premium ===== */
+.prof-css-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Couronne au-dessus de la carte prof */
+.prof-crown {
+  font-size: 1.4rem;
+  margin-bottom: -8px;
+  z-index: 2;
+  position: relative;
+  animation: crownBounce 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 2px 8px rgba(251,191,36,0.6));
+}
+@keyframes crownBounce {
+  0%,100% { transform: translateY(0) rotate(-5deg); }
+  50%     { transform: translateY(-4px) rotate(5deg); }
+}
+
+.prof-avatar-card {
+  width: 120px;
+  height: 148px;
+  background: linear-gradient(160deg, rgba(167,139,250,0.18) 0%, rgba(17,24,39,0.95) 60%, rgba(78,205,196,0.1) 100%);
+  border: 2px solid rgba(167,139,250,0.5);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(167,139,250,0.08),
+    0 16px 50px rgba(0,0,0,0.55),
+    0 0 80px rgba(167,139,250,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  animation: profBob 2.2s ease-in-out infinite;
+}
+
+.prof-avatar-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #CE1126, #FCD116, #009460, #a78bfa, #4ecdc4);
+  border-radius: 24px 24px 0 0;
+}
+
+/* Motif géométrique décoratif en fond de carte */
+.prof-avatar-card::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; right: -10px;
+  width: 70px; height: 70px;
+  background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.prof-avatar-glow {
+  position: absolute;
+  inset: -30px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(167,139,250,0.25) 0%, transparent 60%);
+  pointer-events: none;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%,100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+
+.prof-avatar-emoji {
+  font-size: 4.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.7));
+  position: relative;
+  z-index: 1;
+  margin-bottom: 8px;
+}
+
+.prof-avatar-badge {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.58rem;
+  letter-spacing: 1px;
+  color: rgba(196,181,253,0.95);
+  background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(78,205,196,0.1));
+  border: 1px solid rgba(167,139,250,0.3);
+  border-radius: 20px;
+  padding: 4px 12px;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+.prof-avatar-badge span { color: var(--gold); }
+
+/* Étoiles de niveau autour de la carte */
+.prof-stars {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  justify-content: center;
+}
+.prof-star {
+  font-size: 0.9rem;
+  animation: starSpin 4s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(251,191,36,0.7));
+}
+.prof-star:nth-child(2) { animation-delay: 0.5s; }
+.prof-star:nth-child(3) { animation-delay: 1s; }
+@keyframes starSpin {
+  0%,85%,100% { transform: scale(1); opacity: 0.8; }
+  92% { transform: scale(1.4) rotate(15deg); opacity: 1; }
+}
+
+.prof-shadow {
+  width: 80px; height: 8px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  margin-top: 4px;
+}
+
+/* ===== BULLE DE DIALOGUE V2 ===== */
+.wa-bubble {
+  flex: 1;
+  min-width: 190px;
+  max-width: 330px;
+  position: relative;
+  z-index: 1;
+}
+.wa-bubble-inner {
+  background: linear-gradient(145deg, rgba(17,24,39,0.95), rgba(167,139,250,0.08) 50%, rgba(17,24,39,0.95));
+  border: 1.5px solid rgba(167,139,250,0.45);
+  border-radius: 20px;
+  padding: 18px 20px;
+  font-size: 0.93rem;
+  font-weight: 600;
+  line-height: 1.75;
+  color: var(--text);
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  position: relative;
+  overflow: hidden;
+}
+.wa-bubble-inner::before {
+  content: '"';
+  position: absolute;
+  top: -10px; left: 12px;
+  font-size: 4.5rem;
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  color: rgba(167,139,250,0.08);
+  line-height: 1;
+  pointer-events: none;
+}
+.wa-bubble-inner strong { color: #c4b5fd; }
+.wa-bubble-inner em { color: var(--teal); font-style: normal; }
+.wa-bubble-tail {
+  width: 16px; height: 16px;
+  background: rgba(11,15,30,0.95);
+  border-left: 1.5px solid rgba(167,139,250,0.45);
+  border-bottom: 1.5px solid rgba(167,139,250,0.45);
+  position: absolute;
+  left: -9px; top: 28px;
+  transform: rotate(45deg);
+  border-radius: 0 0 0 3px;
+}
+
+/* ===== FORMULAIRE SECTION V2 ===== */
+.wa-form-section {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px 36px;
+}
+
+.wa-field { margin-bottom: 20px; }
+.wa-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.88rem;
+  color: rgba(240,244,255,0.6);
+  margin-bottom: 10px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* Champ de saisie du nom redesigné */
+.wa-name-wrap {
+  position: relative;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.wa-name-wrap::before {
+  content: '✏️';
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+#player-name-input {
+  background: linear-gradient(135deg, rgba(167,139,250,0.07), rgba(78,205,196,0.04));
+  border: 2px solid rgba(167,139,250,0.3);
+  color: var(--text);
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 1.15rem;
+  padding: 13px 20px 13px 44px;
+  border-radius: 18px;
+  outline: none;
+  text-align: left;
+  width: 100%;
+  display: block;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+#player-name-input:focus {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(78,205,196,0.07));
+  box-shadow: 0 0 0 4px rgba(167,139,250,0.12), 0 4px 20px rgba(0,0,0,0.3);
+}
+#player-name-input::placeholder { opacity: 0.3; }
+
+/* ===== DIVIDER AVEC TEXTE ===== */
+.wa-level-label {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.82rem;
+  color: rgba(240,244,255,0.45);
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wa-level-label::before,
+.wa-level-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.25), transparent);
+}
+
+/* ===== CARTES DE NIVEAU V2 ===== */
+.wa-level-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.wa-level-card {
+  background: linear-gradient(160deg, var(--card) 0%, rgba(7,9,22,0.9) 100%);
+  border: 2px solid transparent;
+  border-radius: 22px;
+  padding: 20px 12px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* Fond subtil en haut de carte */
+.wa-level-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 20px;
+}
+
+/* Barre de couleur en haut de chaque carte */
+.wa-level-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 22px 22px 0 0;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.wa-level-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.wa-level-card:hover::before { opacity: 1; }
+.wa-level-card:hover::after  { opacity: 1; }
+.wa-level-card:active { transform: translateY(-2px) scale(0.98); }
+
+/* Primaire */
+.wa-level-card.primaire { border-color: rgba(52,211,153,0.45); }
+.wa-level-card.primaire::before { background: linear-gradient(160deg, rgba(16,185,129,0.14), rgba(5,150,105,0.06)); }
+.wa-level-card.primaire::after  { background: linear-gradient(90deg, #10b981, #34d399); }
+.wa-level-card.primaire:hover { border-color: #34d399; box-shadow: 0 20px 55px rgba(52,211,153,0.2), 0 0 0 1px rgba(52,211,153,0.15); }
+
+/* Collège */
+.wa-level-card.college { border-color: rgba(96,165,250,0.45); }
+.wa-level-card.college::before { background: linear-gradient(160deg, rgba(59,130,246,0.14), rgba(124,58,237,0.06)); }
+.wa-level-card.college::after  { background: linear-gradient(90deg, #3b82f6, #818cf8); }
+.wa-level-card.college:hover { border-color: #60a5fa; box-shadow: 0 20px 55px rgba(96,165,250,0.2), 0 0 0 1px rgba(96,165,250,0.15); }
+
+/* Lycée */
+.wa-level-card.lycee { border-color: rgba(251,146,60,0.45); }
+.wa-level-card.lycee::before { background: linear-gradient(160deg, rgba(234,88,12,0.14), rgba(217,119,6,0.06)); }
+.wa-level-card.lycee::after  { background: linear-gradient(90deg, #ea580c, #fbbf24); }
+.wa-level-card.lycee:hover { border-color: #fb923c; box-shadow: 0 20px 55px rgba(251,146,60,0.2), 0 0 0 1px rgba(251,146,60,0.15); }
+
+/* Contenu carte */
+.wlc-icon {
+  font-size: 2.4rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,0.5));
+  display: block;
+  transition: transform 0.3s;
+}
+.wa-level-card:hover .wlc-icon { transform: scale(1.15) rotate(-5deg); }
+
+.wlc-name {
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+.wa-level-card.primaire .wlc-name { color: #6ee7b7; }
+.wa-level-card.college  .wlc-name { color: #93c5fd; }
+.wa-level-card.lycee    .wlc-name { color: #fdba74; }
+
+.wlc-desc {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(240,244,255,0.5);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.wlc-desc span {
+  display: block;
+  font-size: 0.65rem;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+
+.wlc-subjects {
+  display: inline-block;
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.62rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(240,244,255,0.55);
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+.wa-level-card:hover .wlc-subjects { background: rgba(255,255,255,0.12); color: rgba(240,244,255,0.85); }
+
+/* Badge diplôme sur chaque carte */
+.wlc-diploma {
+  position: absolute;
+  top: 10px; right: 10px;
+  font-size: 1rem;
+  opacity: 0.5;
+  transition: opacity 0.3s, transform 0.3s;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+.wa-level-card:hover .wlc-diploma { opacity: 1; transform: scale(1.2) rotate(10deg); }
+
+/* ===== CTA JOUER (bouton dans les cartes) ===== */
+.wlc-cta {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.75rem;
+  padding: 5px 0;
+  border-radius: 10px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s, transform 0.25s;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+.wa-level-card.primaire .wlc-cta { color: #34d399; }
+.wa-level-card.college  .wlc-cta { color: #60a5fa; }
+.wa-level-card.lycee    .wlc-cta { color: #fb923c; }
+.wa-level-card:hover .wlc-cta { opacity: 1; transform: translateY(0); }
+
+/* ===== INFO BOX V2 ===== */
+.wa-info-box {
+  background: linear-gradient(145deg, rgba(167,139,250,0.06), rgba(78,205,196,0.04));
+  border: 1px solid rgba(167,139,250,0.18);
+  border-radius: 18px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.wa-info-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: rgba(240,244,255,0.72);
+  line-height: 1.4;
+}
+.wa-info-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.primaire-dot { background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,0.6); }
+.college-dot  { background: #60a5fa; box-shadow: 0 0 6px rgba(96,165,250,0.6); }
+.lycee-dot    { background: #fb923c; box-shadow: 0 0 6px rgba(251,146,60,0.6); }
+
+/* ===== STATS RAPIDES SOUS LES CARTES ===== */
+.wa-quick-stats {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 14px 0 0;
+}
+.wa-qs-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Trebuchet MS', cursive;
+  font-size: 0.72rem;
+  color: rgba(240,244,255,0.6);
+  letter-spacing: 0.3px;
+}
+.wa-qs-badge span { color: var(--gold); font-size: 0.85rem; }
+
+@media (max-width: 500px) {
+  .wa-level-cards { grid-template-columns: 1fr; gap: 10px; }
+  .wa-level-card  { display: flex; align-items: center; gap: 16px; text-align: left; padding: 14px 16px; }
+  .wlc-icon       { font-size: 2rem; margin: 0; flex-shrink: 0; }
+  .wa-hero        { flex-direction: column; gap: 14px; padding: 20px 16px 10px; }
+  .wa-bubble-tail { display: none; }
+  .wlc-cta        { display: none; }
+  .wlc-diploma    { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SCREEN 1 : BIENVENUE ===== -->
+<div id="screen-welcome" class="screen active" style="padding:0;justify-content:flex-start;min-height:100vh;">
+
+  <!-- HEADER style carte aventure -->
+  <header class="wa-header">
+    <div class="wa-header-top">
+      <div class="flag"><div class="r"></div><div class="y"></div><div class="g"></div></div>
+      <div style="text-align:center;flex:1;">
+        <div class="wa-title">Je Réussis BHDS</div>
+        <div class="wa-subtitle">Le Défi de la Moyenne · Guinée 🇬🇳</div>
+      </div>
+      <div class="flag"><div class="r"></div><div class="y"></div><div class="g"></div></div>
+    </div>
+    <!-- Barre kente -->
+    <div class="kente-bar">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <!-- Collection BHDS -->
+    <div style="text-align:center;padding:6px 0 10px;
+                font-family:'Fredoka One',cursive;font-size:0.7rem;
+                letter-spacing:1.5px;color:rgba(251,191,36,0.85);">
+      ✦ Collection BHDS · Fait en Guinée Conakry par <span style="color:var(--accent);">Boubacar Diallo</span> ✦
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <div class="wa-hero">
+
+    <!-- Prof avatar style carte aventure — emoji grand format -->
+    <div class="prof-css-wrap">
+      <div class="prof-avatar-card">
+        <div class="prof-avatar-glow"></div>
+        <div class="prof-avatar-emoji">🧑🏿‍🏫</div>
+        <div class="prof-avatar-badge">
+          <span>✦</span> M. Diallo Boubacar <span>✦</span>
+        </div>
+      </div>
+      <div class="prof-shadow"></div>
+      <div class="prof-stars">
+        <span class="prof-star">⭐</span>
+        <span class="prof-star">⭐</span>
+        <span class="prof-star">⭐</span>
+      </div>
+    </div>
+
+    <!-- Bulle de dialogue -->
+    <div class="wa-bubble" id="welcome-speech">
+      <div class="wa-bubble-inner">
+        🎓 Bienvenue, élève !<br>
+        Je suis le <strong>Professeur Diallo Boubacar</strong>.<br>
+        Obtiens ta <strong>moyenne de passage</strong><br>
+        pour franchir chaque porte !
+      </div>
+      <div class="wa-bubble-tail"></div>
+    </div>
+
+  </div>
+
+  <!-- FORMULAIRE + CHOIX NIVEAU -->
+  <div class="wa-form-section">
+
+    <!-- Nom -->
+    <div class="wa-field">
+      <label class="wa-label">👤 Ton prénom, élève</label>
+      <div class="wa-name-wrap">
+        <input type="text" id="player-name-input" placeholder="Entre ton prénom…" maxlength="20">
+      </div>
+    </div>
+
+    <!-- Choix niveau -->
+    <div class="wa-level-label">🚀 Commence depuis :</div>
+    <div class="wa-level-cards">
+
+      <div class="wa-level-card primaire" id="card-primaire" onclick="startGame('primaire')">
+        <span class="wlc-diploma">🏅</span>
+        <div class="wlc-icon">🌟</div>
+        <div class="wlc-name">Primaire</div>
+        <div class="wlc-desc">CP1 → CM2<br><span>6 portes · CEPE</span></div>
+        <div class="wlc-subjects">6 matières</div>
+        <div class="wlc-cta">▶ Commencer</div>
+      </div>
+
+      <div class="wa-level-card college" id="card-college" onclick="startGame('college')">
+        <span class="wlc-diploma">🎖️</span>
+        <div class="wlc-icon">🎓</div>
+        <div class="wlc-name">Collège</div>
+        <div class="wlc-desc">7ème → 10ème<br><span>4 portes · BEPC</span></div>
+        <div class="wlc-subjects">8 matières</div>
+        <div class="wlc-cta">▶ Commencer</div>
+      </div>
+
+      <div class="wa-level-card lycee" id="card-lycee" onclick="startGame('lycee')">
+        <span class="wlc-diploma">🎓</span>
+        <div class="wlc-icon">🏫</div>
+        <div class="wlc-name">Lycée</div>
+        <div class="wlc-desc">11ème → Terminale<br><span>3 portes · BAC</span></div>
+        <div class="wlc-subjects">9–13 matières</div>
+        <div class="wlc-cta">▶ Commencer</div>
+      </div>
+
+    </div>
+
+    <!-- Stats rapides -->
+    <div class="wa-quick-stats">
+      <div class="wa-qs-badge">🚪 <span>13</span> classes</div>
+      <div class="wa-qs-badge">❓ <span>100+</span> questions</div>
+      <div class="wa-qs-badge">🏆 <span>3</span> diplômes</div>
+    </div>
+
+    <!-- Info box -->
+    <div class="wa-info-box" style="margin-top:16px;">
+      <div class="wa-info-row"><span class="wa-info-dot primaire-dot"></span>Réponds aux <strong>QCM</strong> de chaque matière pour obtenir ta note</div>
+      <div class="wa-info-row"><span class="wa-info-dot college-dot"></span>Atteins la <strong>moyenne de passage</strong> pour franchir la porte</div>
+      <div class="wa-info-row"><span class="wa-info-dot lycee-dot"></span>Décroche ton diplôme : <strong>CEPE · BEPC · BAC</strong> 🏅</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== SCREEN 2 : COULOIR ===== -->
+<div id="screen-corridor" class="screen">
+  <div class="app-wrap" style="width:100%;max-width:720px;">
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px;">
+        <div class="corridor-header" id="corridor-title">LE COULOIR DES PORTES</div>
+        <button class="perso-btn-corridor" id="persoBtnCorridor" onclick="SFX.click();showPersoModal()" title="Choisir mon personnage">🧒🏿</button>
+      </div>
+      <div style="font-family:'Fredoka One',cursive;font-size:0.72rem;color:rgba(167,139,250,0.7);margin-top:3px;" id="player-greeting"></div>
+
+      <div class="score-pill-row">
+        <div class="score-pill">📊 <span id="corridor-progress-text">0 / 13 classes</span></div>
+      </div>
+
+      <div style="margin:8px 0;">
+        <div style="font-family:'Fredoka One',cursive;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:5px;">PROGRESSION GLOBALE</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="global-progress" style="width:0%"></div></div>
+      </div>
+
+      <div class="level-tabs" id="level-tabs">
+        <button class="level-tab primaire" onclick="switchLevel('primaire')">🌟 Primaire</button>
+        <button class="level-tab college"  onclick="switchLevel('college')">🎓 Collège</button>
+        <button class="level-tab lycee"    onclick="switchLevel('lycee')">🏫 Lycée</button>
+      </div>
+    </div>
+
+    <div class="corridor" id="main-corridor">
+      <div class="corridor-title" id="corridor-level-title">PRIMAIRE</div>
+
+      <!-- PROF DIALLO BOUBACAR dans le couloir -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;position:relative;z-index:1;
+                  background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(78,205,196,0.06));
+                  border:1px solid rgba(167,139,250,0.25);border-radius:16px;padding:10px 14px;">
+        <div style="font-size:2.4rem;animation:profBob 2s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.5));">🧑🏿‍🏫</div>
+        <div>
+          <div style="font-family:'Fredoka One',cursive;font-size:0.75rem;color:var(--accent);letter-spacing:1px;">VOTRE PROFESSEUR</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:1rem;color:var(--text);">M. Diallo Boubacar</div>
+          <div style="font-size:0.75rem;color:rgba(240,244,255,0.5);font-weight:700;" id="corridor-prof-msg">Bonne chance dans le couloir !</div>
+        </div>
+      </div>
+
+      <div class="doors-row" id="doors-container"></div>
+      <div class="player-pos">
+        <span id="current-pos-label">Position actuelle</span>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center;">
+      <button class="btn btn-gold" onclick="showStats()">📊 Mes Stats</button>
+      <button class="btn btn-red"  onclick="goToWelcome()">🚪 Menu</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 3 : EXAMEN ===== -->
+<div id="screen-exam" class="screen">
+  <div class="app-wrap">
+    <div class="game-card">
+      <div class="exam-header">
+        <div class="exam-class-badge" id="exam-badge">CP - Classe 1</div>
+        <div class="exam-lives" id="exam-lives">❤️❤️❤️</div>
+      </div>
+
+      <div style="text-align:center;margin-bottom:14px;">
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;font-weight:800;opacity:0.4;margin-bottom:6px;">MISSION</div>
+        <div style="font-size:0.95rem;line-height:1.6;font-weight:600;" id="exam-mission"></div>
+      </div>
+
+      <hr class="px-div">
+
+      <div style="font-family:'Fredoka One',cursive;font-size:0.85rem;color:var(--accent);margin-bottom:12px;letter-spacing:1px;">
+        📝 RÉPONDEZ AUX QCM DE CHAQUE MATIÈRE
+      </div>
+
+      <div class="subjects-grid" id="subjects-grid"></div>
+
+      <div class="requirement-info" id="requirement-info"></div>
+
+      <div class="moyenne-display none" id="moyenne-display">
+        <div class="moyenne-label">VOTRE MOYENNE</div>
+        <div class="moyenne-value" id="moyenne-val">--</div>
+      </div>
+
+      <div style="text-align:center;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+        <button class="btn btn-green" id="btn-pass" onclick="tryPassDoor()" style="display:none;">🚪 Traverser la porte !</button>
+        <button class="btn btn-red"   onclick="goToCorridor()">↩ Retour</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 4 : RÉSULTAT ===== -->
+<div id="screen-result" class="screen">
+  <div class="app-wrap">
+    <div class="game-card">
+      <div class="result-box">
+        <div class="result-emoji" id="result-emoji">🎉</div>
+        <div class="result-title" id="result-title">PASSAGE !</div>
+        <div class="result-msg" id="result-msg"></div>
+
+        <div style="margin:14px 0;text-align:left;">
+          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;font-weight:800;opacity:0.4;margin-bottom:8px;text-align:center;">RÉSUMÉ</div>
+          <div id="result-summary" style="font-size:0.9rem;line-height:2;font-weight:700;"></div>
+        </div>
+
+        <hr class="px-div">
+
+        <!-- ===== PROF DIALLO CONSEIL ANIMÉ ===== -->
+        <div id="prof-conseil-panel" style="
+          position:relative;
+          background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(78,205,196,0.06));
+          border:1.5px solid rgba(167,139,250,0.3);
+          border-radius:20px;
+          padding:16px 16px 16px 14px;
+          margin-bottom:16px;
+          overflow:hidden;
+          display:flex;
+          align-items:flex-start;
+          gap:12px;
+        ">
+          <!-- Shimmer -->
+          <div style="position:absolute;inset:0;pointer-events:none;
+            background:linear-gradient(105deg,transparent 40%,rgba(167,139,250,0.06) 50%,transparent 60%);
+            animation:profShimmer 3s ease-in-out infinite;"></div>
+
+          <!-- Sprite Prof -->
+          <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div id="prof-sprite-result" style="
+              font-size:2.6rem;line-height:1;
+              animation:profBob 1.8s ease-in-out infinite;
+              filter:drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+            ">🧑🏿‍🏫</div>
+            <div style="font-family:'Fredoka One',cursive;font-size:0.55rem;color:var(--accent);
+              letter-spacing:1px;white-space:nowrap;">M. DIALLO</div>
+          </div>
+
+          <!-- Bulle message -->
+          <div style="flex:1;position:relative;">
+            <!-- Flèche bulle -->
+            <div style="
+              position:absolute;top:10px;left:-18px;
+              border:8px solid transparent;
+              border-right-color:rgba(167,139,250,0.35);
+            "></div>
+            <div style="
+              background:rgba(167,139,250,0.07);
+              border:1px solid rgba(167,139,250,0.22);
+              border-radius:14px;
+              padding:10px 14px;
+            ">
+              <div style="font-family:'Fredoka One',cursive;font-size:0.68rem;
+                color:var(--accent);letter-spacing:1.5px;margin-bottom:6px;
+                text-transform:uppercase;opacity:0.8;">
+                💬 Conseil du Professeur
+              </div>
+              <div id="result-prof-msg" style="font-size:0.88rem;line-height:1.65;font-weight:700;color:var(--text);">
+              </div>
+              <!-- Badge matière faible -->
+              <div id="prof-weak-badge" style="display:none;margin-top:8px;
+                background:linear-gradient(135deg,rgba(248,113,113,0.15),rgba(185,28,28,0.1));
+                border:1px solid rgba(248,113,113,0.35);
+                border-radius:10px;padding:6px 12px;
+                font-size:0.78rem;font-weight:800;color:var(--red);
+                animation:badgePulse 2s ease-in-out infinite;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;" id="result-actions"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 5 : STATS ===== -->
+<div id="screen-stats" class="screen">
+  <div class="app-wrap">
+    <div class="game-card">
+      <div style="font-family:'Fredoka One',cursive;font-size:1.4rem;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;margin-bottom:16px;">
+        📊 Mes Statistiques
+      </div>
+      <div class="stats-grid" id="stats-grid"></div>
+      <hr class="px-div">
+      <div id="stats-detail" style="font-size:0.9rem;line-height:2.2;font-weight:600;"></div>
+      <div style="text-align:center;margin-top:18px;">
+        <button class="btn btn-gold" onclick="goToCorridor()">↩ Retour au Couloir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 6 : VICTOIRE FINALE ===== -->
+<div id="screen-victory" class="screen">
+  <div class="app-wrap">
+    <div class="game-card" style="text-align:center;">
+      <div style="font-size:4rem;margin-bottom:12px;animation:resultPop 0.6s ease">🏆</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:1.8rem;background:linear-gradient(135deg,#fbbf24,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;line-height:1.4;">
+        FÉLICITATIONS !<br>DIPLÔMÉ(E) !
+      </div>
+      <div id="victory-name" style="font-family:'Fredoka One',cursive;font-size:1rem;color:var(--green);margin-bottom:16px;"></div>
+      <div id="victory-msg" style="font-size:0.95rem;line-height:1.8;margin-bottom:20px;font-weight:700;opacity:0.85;"></div>
+      <div class="stats-grid" id="victory-stats"></div>
+      <hr class="px-div">
+      <button class="btn btn-gold" onclick="resetGame()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confetti -->
+<div class="confetti-container" id="confetti-container"></div>
+
+<!-- Door animation overlay -->
+<div id="door-overlay" style="display:none;position:fixed;inset:0;z-index:100;">
+  <div class="door-open-left"  id="door-left"></div>
+  <div class="door-open-right" id="door-right"></div>
+</div>
+<div class="flash-white" id="flash-white"></div>
+
+<script>
+// ============================================================
+//  DONNÉES DU JEU
+// ============================================================
+
+// Disciplines guinéennes — moyenne simple (sans coefficients)
+const SUBJECTS_PRIMAIRE = [
+  'Calcul Arithmétique',
+  'Français',
+  'Géographie',
+  'Histoire',
+  'Sciences',
+  'Géométrie',
+];
+
+const SUBJECTS_COLLEGE = [
+  'Mathématiques',
+  'Français',
+  'Physique-Chimie',
+  'Biologie',
+  'Géographie',
+  'Histoire',
+  'Éducation Civique et Morale',
+  'Géométrie',
+];
+
+const SUBJECTS_LYCEE = [
+  'Mathématiques',
+  'Physique-Chimie',
+  'Français',
+  'Biologie',
+  'Géographie',
+  'Histoire',
+  'Économie',
+  'Philosophie',
+  'Anglais',
+  'Géométrie',
+];
+
+function makeSubjects(list) {
+  return list.map(name => ({ name, coef: 1 }));
+}
+
+const SUBJECTS_TERMINALE = [
+  'Lois de Newton',
+  'Lois de Kepler',
+  'Optique Ondulatoire',
+  'Physique Atomique',
+  'Physique Nucléaire',
+  'Chimie Organique',
+  'Cinétique Chimique',
+  'Mécanique',
+  'Électricité & Électromagnétisme',
+  'Circuits RLC RC RL',
+  'Fonctions Numériques',
+  'Fonction Logarithme Népérien',
+  'Fonction Exponentielle',
+];
+
+const LEVELS = {
+  primaire: {
+    label: 'Primaire', color: '#80cbc4', doorClass: 'primaire-door',
+    maxNote: 10,
+    classes: [
+      {
+        id:'CP1', label:'CP1', fullName:'Cours Préparatoire 1',
+        requirement: 5, lives: 3,
+        mission: 'Première porte du primaire ! Obtiens 5/10 de moyenne pour entrer en CP2 !',
+        subjects: makeSubjects(SUBJECTS_PRIMAIRE),
+      },
+      {
+        id:'CP2', label:'CP2', fullName:'Cours Préparatoire 2',
+        requirement: 5, lives: 3,
+        mission: 'Tu avances ! Franchis la porte du CE1 avec une moyenne de 5/10 !',
+        subjects: makeSubjects(SUBJECTS_PRIMAIRE),
+      },
+      {
+        id:'CE1', label:'CE1', fullName:'Cours Élémentaire 1',
+        requirement: 5, lives: 3,
+        mission: 'Le CE1 ! Prouve tes connaissances pour passer en CE2 !',
+        subjects: makeSubjects(SUBJECTS_PRIMAIRE),
+      },
+      {
+        id:'CE2', label:'CE2', fullName:'Cours Élémentaire 2',
+        requirement: 5, lives: 3,
+        mission: 'Le CE2 ! Tu approches du CM1, tiens bon !',
+        subjects: makeSubjects(SUBJECTS_PRIMAIRE),
+      },
+      {
+        id:'CM1', label:'CM1', fullName:'Cours Moyen 1',
+        requirement: 5, lives: 3,
+        mission: 'Le CM1 ! La dernière porte du primaire se rapproche !',
+        subjects: makeSubjects(SUBJECTS_PRIMAIRE),
+      },
+      {
+        id:'CM2', label:'CM2 ★', fullName:'Cours Moyen 2 — CEPE',
+        requirement: 6, lives: 3,
+        mission: '🏅 LE CEPE ! Décroche 6/10 pour obtenir ton certificat de fin du primaire !',
+        subjects: makeSubjects(SUBJECTS_PRIMAIRE),
+      },
+    ]
+  },
+
+  college: {
+    label: 'Collège', color: '#ffb74d', doorClass: 'college-door',
+    maxNote: 20,
+    classes: [
+      {
+        id:'7e', label:'7ème', fullName:'Septième',
+        requirement: 10, lives: 3,
+        mission: 'Bienvenue au collège guinéen ! Franchis la porte de la 8ème avec 10/20 !',
+        subjects: makeSubjects(SUBJECTS_COLLEGE),
+      },
+      {
+        id:'8e', label:'8ème', fullName:'Huitième',
+        requirement: 10, lives: 3,
+        mission: 'La 8ème ! Continue sur ta lancée pour atteindre la 9ème !',
+        subjects: makeSubjects(SUBJECTS_COLLEGE),
+      },
+      {
+        id:'9e', label:'9ème', fullName:'Neuvième',
+        requirement: 10, lives: 3,
+        mission: 'La 9ème ! Encore un effort pour la 10ème et le BEPC !',
+        subjects: makeSubjects(SUBJECTS_COLLEGE),
+      },
+      {
+        id:'10e', label:'10ème ★', fullName:'Dixième — BEPC',
+        requirement: 12, lives: 3,
+        mission: '🏅 LE BEPC ! Obtiens 12/20 pour décrocher ton diplôme de collège !',
+        subjects: makeSubjects(SUBJECTS_COLLEGE),
+      },
+    ]
+  },
+
+  lycee: {
+    label: 'Lycée', color: '#f48fb1', doorClass: 'lycee-door',
+    maxNote: 20,
+    classes: [
+      {
+        id:'11e', label:'11ème', fullName:'Onzième',
+        requirement: 10, lives: 3,
+        mission: 'Bienvenue au lycée ! Franchis la porte de la 12ème avec 10/20 !',
+        subjects: makeSubjects(SUBJECTS_LYCEE),
+      },
+      {
+        id:'12e', label:'12ème', fullName:'Douzième',
+        requirement: 10, lives: 3,
+        mission: 'La 12ème ! La Terminale et le BAC t\'attendent, courage !',
+        subjects: makeSubjects(SUBJECTS_LYCEE),
+      },
+      {
+        id:'term', label:'Terminale ★', fullName:'Terminale — Baccalauréat',
+        requirement: 12, lives: 3,
+        mission: '🎓 LE BACCALAURÉAT ! Atteins 12/20 pour être officiellement DIPLÔMÉ(E) de Guinée !',
+        subjects: makeSubjects(SUBJECTS_TERMINALE),
+      },
+    ]
+  }
+};
+
+
+
+const PROF_MESSAGES = {
+  win: [
+    "Bravo ! Tu as prouvé ta valeur ! La porte s'ouvre devant toi ! 🎉",
+    "Excellent travail, élève ! Continue ainsi et tu iras loin ! 🌟",
+    "Admirable ! Tes efforts sont récompensés ! Avance ! 💪",
+    "Parfait ! Je suis fier de toi ! La prochaine épreuve t'attend ! 📚",
+    "Magnifique résultat ! Tu mérites de franchir cette porte ! 🏆",
+  ],
+  lose: [
+    "Ne te décourage pas ! Révise et réessaie. La persévérance mène au succès ! 📖",
+    "C'est dur, mais tu peux y arriver ! Retravaille tes notes ! 💡",
+    "Pas encore… Courage ! Les grands hommes ont tous échoué avant de triompher ! 🔥",
+    "L'échec est le début de la réussite. Reprends et bats-toi ! ⚔️",
+    "Je crois en toi ! Analyse tes erreurs et reviens plus fort ! 🌱",
+  ],
+  diploma: {
+    CEPE: "🏅 CEPE obtenu ! Tu es maintenant prêt pour le grand collège !",
+    BEPC: "🏅 BEPC en poche ! Le lycée t'ouvre ses portes !",
+    BAC: "🎓 BACCALAURÉAT OBTENU ! Tu es diplômé(e) ! Toute la Guinée est fière de toi !"
+  }
+};
+
+// ============================================================
+//  BANQUE DE QUESTIONS QCM PAR MATIÈRE
+// ============================================================
+
+const QUESTIONS_BANK = {
+
+  'Calcul Arithmétique': [
+    { q:"Combien font 7 × 8 ?", choices:["54","56","48","63"], answer:1 },
+    { q:"Quel est le résultat de 144 ÷ 12 ?", choices:["11","13","12","14"], answer:2 },
+    { q:"Quel est le double de 37 ?", choices:["64","74","73","84"], answer:1 },
+    { q:"Complète : 5² = ?", choices:["10","15","20","25"], answer:3 },
+    { q:"Quel nombre est divisible par 3 et par 4 ?", choices:["10","14","24","22"], answer:2 },
+    { q:"Quelle fraction est égale à 0,5 ?", choices:["1/4","1/3","1/2","2/3"], answer:2 },
+    { q:"Combien font 256 + 348 ?", choices:["594","604","614","624"], answer:1 },
+    { q:"Quel est le PGCD de 12 et 18 ?", choices:["3","6","4","9"], answer:1 },
+    { q:"Calcule 15% de 200.", choices:["25","30","35","40"], answer:1 },
+    { q:"Un article coûte 8 000 FG, tu paies avec 10 000 FG. Quelle est la monnaie ?", choices:["1 000 FG","2 000 FG","3 000 FG","4 000 FG"], answer:1 },
+  ],
+
+  'Français': [
+    { q:"Quel est le féminin de 'acteur' ?", choices:["acteure","actrice","acteuse","actrisse"], answer:1 },
+    { q:"Complète : 'Je ___ à l'école chaque jour.' (verbe aller)", choices:["vais","va","allez","allons"], answer:0 },
+    { q:"Quel est le synonyme de 'rapide' ?", choices:["lent","vite","agile","lourd"], answer:2 },
+    { q:"Quelle phrase est correctement ponctuée ?", choices:["Le soleil brille","Le soleil brille.","le soleil brille.","Le soleil, brille."], answer:1 },
+    { q:"Quel mot est un adverbe ?", choices:["grand","rapidement","maison","courir"], answer:1 },
+    { q:"Quel est l'antonyme de 'courageux' ?", choices:["fort","brave","lâche","vaillant"], answer:2 },
+    { q:"Dans 'Les élèves studieux réussissent', quel est le sujet ?", choices:["Les élèves studieux","réussissent","studieux","élèves"], answer:0 },
+    { q:"Quel temps verbal est : 'Nous chantions' ?", choices:["Présent","Futur","Imparfait","Passé composé"], answer:2 },
+    { q:"Combien de syllabes dans le mot 'chocolat' ?", choices:["2","3","4","5"], answer:1 },
+    { q:"Quel est le pluriel de 'cheval' ?", choices:["chevals","chevaus","chevaux","chevales"], answer:2 },
+  ],
+
+  'Géographie': [
+    { q:"Quelle est la capitale de la Guinée ?", choices:["Kankan","Labé","Conakry","Kindia"], answer:2 },
+    { q:"Quel est le plus grand fleuve d'Afrique ?", choices:["Niger","Congo","Nil","Zambèze"], answer:2 },
+    { q:"Combien de régions administratives a la Guinée ?", choices:["6","7","8","9"], answer:1 },
+    { q:"Quel océan borde la Guinée à l'ouest ?", choices:["Indien","Atlantique","Pacifique","Arctique"], answer:1 },
+    { q:"Où se trouve le Fouta-Djalon ?", choices:["Basse Guinée","Haute Guinée","Moyenne Guinée","Guinée Forestière"], answer:2 },
+    { q:"Quel pays est au nord de la Guinée ?", choices:["Sierra Leone","Libéria","Sénégal","Côte d'Ivoire"], answer:2 },
+    { q:"Dans quel continent se trouve la Guinée ?", choices:["Asie","Amérique","Afrique","Europe"], answer:2 },
+    { q:"Quel est le principal minerai extrait en Guinée ?", choices:["Pétrole","Bauxite","Diamant","Charbon"], answer:1 },
+    { q:"Quelle ville est surnommée capitale de la Haute Guinée ?", choices:["Faranah","Kankan","Siguiri","Kouroussa"], answer:1 },
+    { q:"Le mont Nimba est le point culminant de Guinée. Où se situe-t-il ?", choices:["Basse Guinée","Haute Guinée","Moyenne Guinée","Guinée Forestière"], answer:3 },
+  ],
+
+  'Histoire': [
+    { q:"En quelle année la Guinée a-t-elle obtenu son indépendance ?", choices:["1956","1958","1960","1962"], answer:1 },
+    { q:"Qui était le premier président de la Guinée ?", choices:["Lansana Conté","Alpha Condé","Sékou Touré","Diallo Telli"], answer:2 },
+    { q:"Lors du référendum de 1958, quelle réponse ont donnée les Guinéens ?", choices:["Oui","Non","Abstention","Rien"], answer:1 },
+    { q:"Quel empire africain fut l'un des plus puissants au Moyen Âge ?", choices:["Empire romain","Empire du Mali","Empire britannique","Empire ottoman"], answer:1 },
+    { q:"Qui fut le célèbre résistant guinéen face aux colonisateurs français ?", choices:["Samory Touré","Lat Dior","Chaka Zulu","Nana Asante"], answer:0 },
+    { q:"En quelle année fut abolie l'esclavage en France et dans ses colonies ?", choices:["1789","1848","1900","1920"], answer:1 },
+    { q:"Quel empire précéda l'Empire du Mali en Afrique de l'Ouest ?", choices:["Empire Songhaï","Empire du Ghana","Empire Kanem","Empire Wolof"], answer:1 },
+    { q:"Quelle conférence de 1884-1885 partagea l'Afrique entre puissances européennes ?", choices:["Conférence de Paris","Conférence de Berlin","Conférence de Londres","Conférence de Rome"], answer:1 },
+    { q:"Qui a dit : 'Nous préférons la liberté dans la pauvreté à la richesse dans l'esclavage' ?", choices:["Lansana Conté","Alpha Condé","Sékou Touré","Kwame Nkrumah"], answer:2 },
+    { q:"Quel siècle correspond à la période 1800-1899 ?", choices:["17ème siècle","18ème siècle","19ème siècle","20ème siècle"], answer:2 },
+  ],
+
+  'Sciences': [
+    { q:"Quelle planète est la plus proche du Soleil ?", choices:["Vénus","Terre","Mercure","Mars"], answer:2 },
+    { q:"Que produit la photosynthèse en présence de lumière ?", choices:["Eau","CO₂","Oxygène","Azote"], answer:2 },
+    { q:"Quel organe pompe le sang dans le corps humain ?", choices:["Poumon","Foie","Rein","Cœur"], answer:3 },
+    { q:"De quelle couleur est le sang oxygéné ?", choices:["Bleu","Rouge vif","Violet","Noir"], answer:1 },
+    { q:"Quel est le symbole chimique de l'eau ?", choices:["CO₂","O₂","H₂O","NaCl"], answer:2 },
+    { q:"Combien d'os compte le corps humain adulte ?", choices:["106","206","306","406"], answer:1 },
+    { q:"Quelle est la source d'énergie du Soleil ?", choices:["Charbon","Fusion nucléaire","Électricité","Pétrole"], answer:1 },
+    { q:"Quel animal est un mammifère ?", choices:["Requin","Aigle","Baleine","Crocodile"], answer:2 },
+    { q:"Comment appelle-t-on le passage de l'eau de liquide à vapeur ?", choices:["Fusion","Solidification","Évaporation","Condensation"], answer:2 },
+    { q:"Lequel de ces fruits est originaire d'Afrique de l'Ouest ?", choices:["Pomme","Mangue","Poire","Cerise"], answer:1 },
+  ],
+
+  'Mathématiques': [
+    { q:"Quelle est la valeur de π arrondie au centième ?", choices:["3,12","3,14","3,16","3,18"], answer:1 },
+    { q:"Résous : 3x + 6 = 21. Valeur de x ?", choices:["3","4","5","6"], answer:2 },
+    { q:"Aire d'un rectangle de 8 cm par 5 cm ?", choices:["13 cm²","26 cm²","40 cm²","45 cm²"], answer:2 },
+    { q:"Résultat de (-3) × (-4) ?", choices:["-12","12","-7","7"], answer:1 },
+    { q:"La somme des angles d'un triangle vaut :", choices:["90°","120°","180°","270°"], answer:2 },
+    { q:"Quel est le carré de 13 ?", choices:["156","169","170","196"], answer:1 },
+    { q:"Simplifie la fraction 18/24.", choices:["2/3","3/4","4/6","9/12"], answer:1 },
+    { q:"Volume d'un cube de côté 3 cm ?", choices:["9 cm³","18 cm³","27 cm³","36 cm³"], answer:2 },
+    { q:"Un train roule à 80 km/h. Distance en 2h30 ?", choices:["160 km","180 km","200 km","220 km"], answer:2 },
+    { q:"Quel est le PPCM de 4 et 6 ?", choices:["12","18","24","8"], answer:0 },
+  ],
+
+  'Physique-Chimie': [
+    { q:"Quelle est l'unité de mesure de la force ?", choices:["Joule","Newton","Pascal","Watt"], answer:1 },
+    { q:"Quelle loi relie tension, intensité et résistance ?", choices:["Loi de Newton","Loi d'Ohm","Loi de Faraday","Loi de Boyle"], answer:1 },
+    { q:"Quel est le symbole chimique du fer ?", choices:["F","Fr","Fe","Fo"], answer:2 },
+    { q:"À quelle température l'eau bout-elle (pression normale) ?", choices:["90°C","95°C","100°C","105°C"], answer:2 },
+    { q:"Quelle est la vitesse de la lumière dans le vide ?", choices:["100 000 km/s","200 000 km/s","300 000 km/s","400 000 km/s"], answer:2 },
+    { q:"Dans un circuit en série, si une ampoule grille, les autres :", choices:["S'allument","S'éteignent toutes","Brillent plus","Ne changent pas"], answer:1 },
+    { q:"Quel est le numéro atomique de l'oxygène ?", choices:["6","7","8","9"], answer:2 },
+    { q:"Quelle couleur a la flamme d'un chalumeau bien réglé ?", choices:["Rouge","Jaune","Bleue","Verte"], answer:2 },
+    { q:"Quel appareil mesure l'intensité du courant électrique ?", choices:["Voltmètre","Ampèremètre","Ohmmètre","Wattmètre"], answer:1 },
+    { q:"L'acide chlorhydrique a pour formule :", choices:["H₂SO₄","HNO₃","HCl","NaOH"], answer:2 },
+  ],
+
+  'Biologie': [
+    { q:"Quelle est la fonction de la chlorophylle ?", choices:["Respirer","Absorber la lumière pour la photosynthèse","Transporter le sang","Digérer"], answer:1 },
+    { q:"Combien de chromosomes possède une cellule humaine normale ?", choices:["23","44","46","48"], answer:2 },
+    { q:"Quel organe filtre le sang pour produire l'urine ?", choices:["Foie","Estomac","Rein","Poumon"], answer:2 },
+    { q:"Quelle est la plus petite unité du vivant ?", choices:["Tissu","Organe","Cellule","Molécule"], answer:2 },
+    { q:"Par quoi les plantes absorbent-elles l'eau du sol ?", choices:["Les feuilles","Les racines","Les fleurs","Les graines"], answer:1 },
+    { q:"Quel microorganisme est responsable du paludisme ?", choices:["Bactérie","Virus","Champignon","Plasmodium (parasite)"], answer:3 },
+    { q:"Combien de cavités compte le cœur humain ?", choices:["2","3","4","5"], answer:2 },
+    { q:"Qu'est-ce que la mitose ?", choices:["Division cellulaire","Respiration","Photosynthèse","Digestion"], answer:0 },
+    { q:"Quel organe produit l'insuline ?", choices:["Foie","Rein","Pancréas","Rate"], answer:2 },
+    { q:"Lequel est un virus ?", choices:["Tuberculose","VIH/SIDA","Choléra","Paludisme"], answer:1 },
+  ],
+
+  'Éducation Civique et Morale': [
+    { q:"Qu'est-ce qu'un citoyen ?", choices:["Un étranger","Membre d'une communauté avec droits et devoirs","Un fonctionnaire","Un militaire"], answer:1 },
+    { q:"Quel document atteste la nationalité guinéenne ?", choices:["Passeport uniquement","Carte d'électeur","Carte nationale d'identité","Diplôme scolaire"], answer:2 },
+    { q:"La devise de la Guinée est :", choices:["Liberté, Égalité, Fraternité","Travail, Justice, Solidarité","Unité, Travail, Justice","Paix, Travail, Patrie"], answer:2 },
+    { q:"Que signifie 'démocratie' ?", choices:["Gouvernement des militaires","Gouvernement du peuple par le peuple","Gouvernement d'un seul homme","Gouvernement des savants"], answer:1 },
+    { q:"Quel est le rôle principal d'un citoyen dans une démocratie ?", choices:["Payer des impôts uniquement","Voter et participer à la vie publique","Obéir sans question","Ne rien faire"], answer:1 },
+    { q:"Quelle institution adopte les lois en Guinée ?", choices:["La Présidence","L'Assemblée Nationale","Le Gouvernement","L'Armée"], answer:1 },
+    { q:"Qu'est-ce que le droit à l'éducation ?", choices:["Un privilège des riches","Un droit fondamental de tout enfant","Un service payant","Une récompense"], answer:1 },
+    { q:"Que doit faire un citoyen face à une injustice ?", choices:["Se taire","Ignorer","La signaler par les voies légales","Faire justice lui-même"], answer:2 },
+    { q:"La Constitution guinéenne est :", choices:["Une loi ordinaire","La loi fondamentale du pays","Un traité international","Un règlement scolaire"], answer:1 },
+    { q:"Qu'est-ce que la corruption ?", choices:["Un travail bien fait","Abus de pouvoir pour gain illicite","Un échange commercial","Un honneur"], answer:1 },
+  ],
+
+  'Économie': [
+    { q:"Qu'est-ce que le PIB d'un pays ?", choices:["Population totale","Valeur totale des biens et services produits","Total des impôts","Nombre d'entreprises"], answer:1 },
+    { q:"Quelle est la monnaie de la Guinée ?", choices:["Franc CFA","Dollar guinéen","Franc guinéen","Euro"], answer:2 },
+    { q:"Qu'est-ce que l'inflation ?", choices:["Baisse des prix","Hausse générale des prix","Stabilité des prix","Hausse des salaires"], answer:1 },
+    { q:"Qu'est-ce qu'une entreprise ?", choices:["Une école","Organisation qui produit biens ou services","Un ministère","Une banque uniquement"], answer:1 },
+    { q:"L'agriculture appartient à quel secteur économique ?", choices:["Secteur primaire","Secteur secondaire","Secteur tertiaire","Secteur quaternaire"], answer:0 },
+    { q:"Qu'est-ce que le chômage ?", choices:["Travailler trop","Ne pas trouver d'emploi malgré la recherche","Refuser de travailler","Travailler à l'étranger"], answer:1 },
+    { q:"Quelle ressource naturelle fait la richesse du sous-sol guinéen ?", choices:["Pétrole","Bauxite","Charbon","Uranium"], answer:1 },
+    { q:"Un budget équilibré signifie :", choices:["Recettes = Dépenses","Recettes > Dépenses","Recettes < Dépenses","Aucune dépense"], answer:0 },
+    { q:"Quel organisme international accorde des prêts aux pays en développement ?", choices:["CEDEAO","FMI / Banque mondiale","Union africaine","ONU"], answer:1 },
+    { q:"Le libre-échange désigne :", choices:["Commerce sans barrières douanières","Commerce interdit","Commerce uniquement national","Commerce réservé aux riches"], answer:0 },
+  ],
+
+  'Philosophie': [
+    { q:"Qui a dit : 'Je pense donc je suis' ?", choices:["Platon","Aristote","Descartes","Kant"], answer:2 },
+    { q:"Qu'étudie principalement la philosophie ?", choices:["Les astres","Les lois","Les questions fondamentales de l'existence","La chimie"], answer:2 },
+    { q:"Quelle est la vertu centrale selon Aristote ?", choices:["La force","La richesse","La vertu du juste milieu","La beauté"], answer:2 },
+    { q:"La liberté selon les Lumières, c'est :", choices:["Faire tout ce qu'on veut","Agir selon la raison sans nuire à autrui","Être riche","Obéir au roi"], answer:1 },
+    { q:"Quel intellectuel africain est célèbre pour ses travaux sur la négritude et l'Égypte antique ?", choices:["Descartes","Hegel","Cheikh Anta Diop","Newton"], answer:2 },
+    { q:"La déduction logique consiste à :", choices:["Deviner au hasard","Tirer une conclusion à partir de prémisses","Observer la nature","Mémoriser des faits"], answer:1 },
+    { q:"La morale s'occupe de :", choices:["L'esthétique","Le bien et le mal, les valeurs humaines","La physique","L'économie"], answer:1 },
+    { q:"Le mot 'philosophie' vient du grec et signifie :", choices:["Connaissance des étoiles","Amour de la sagesse","Étude des lois","Science de la vie"], answer:1 },
+    { q:"Selon Platon, le monde des idées est :", choices:["Une illusion","Plus réel que le monde sensible","Inventé par l'homme","Identique au monde physique"], answer:1 },
+    { q:"Le relativisme moral affirme que :", choices:["Il existe une morale universelle absolue","La morale varie selon les cultures","La morale n'existe pas","La morale est imposée par l'État"], answer:1 },
+  ],
+
+  'Anglais': [
+    { q:"What is the capital of Guinea?", choices:["Kankan","Conakry","Labé","Kindia"], answer:1 },
+    { q:"She ___ to school every day. (correct form)", choices:["go","goes","going","gone"], answer:1 },
+    { q:"What is the plural of 'child'?", choices:["childs","childes","children","childrens"], answer:2 },
+    { q:"Translate: 'Je suis étudiant(e).'", choices:["I am a student.","I is a student.","I am student.","I were a student."], answer:0 },
+    { q:"Which word is an adjective?", choices:["quickly","run","beautiful","school"], answer:2 },
+    { q:"What is the opposite of 'hot'?", choices:["warm","cool","cold","chilly"], answer:2 },
+    { q:"Which sentence is correct?", choices:["He don't like maths.","He doesn't like maths.","He not like maths.","He isn't like maths."], answer:1 },
+    { q:"'Yesterday I ___ to the market.' (past of 'go')", choices:["goed","gone","went","go"], answer:2 },
+    { q:"What does 'diligent' mean?", choices:["Lazy","Hardworking","Rude","Shy"], answer:1 },
+    { q:"Correct question tag for 'She is your sister, ___ ?'", choices:["isn't it","is she","isn't she","doesn't she"], answer:2 },
+  ],
+
+  'Géométrie': [
+    { q:"La somme des angles d'un triangle est :", choices:["90°","180°","270°","360°"], answer:1 },
+    { q:"L'aire d'un rectangle de longueur 6 cm et largeur 4 cm est :", choices:["10 cm²","20 cm²","24 cm²","48 cm²"], answer:2 },
+    { q:"Le périmètre d'un carré de côté 5 cm est :", choices:["10 cm","20 cm","25 cm","15 cm"], answer:1 },
+    { q:"L'aire d'un triangle de base 8 cm et hauteur 5 cm est :", choices:["40 cm²","20 cm²","13 cm²","80 cm²"], answer:1 },
+    { q:"Un angle droit mesure :", choices:["45°","60°","90°","180°"], answer:2 },
+    { q:"Le volume d'un cube de côté 3 cm est :", choices:["9 cm³","18 cm³","27 cm³","36 cm³"], answer:2 },
+    { q:"Deux droites perpendiculaires forment un angle de :", choices:["45°","60°","180°","90°"], answer:3 },
+    { q:"Le diamètre d'un cercle est :", choices:["La moitié du rayon","Le double du rayon","Égal au rayon","Le triple du rayon"], answer:1 },
+    { q:"L'aire d'un cercle de rayon r est :", choices:["2πr","πr²","πr","2πr²"], answer:1 },
+    { q:"Un triangle équilatéral a ses trois côtés :", choices:["Tous différents","Deux égaux","Tous égaux","Aucun égal"], answer:2 },
+    { q:"Le théorème de Pythagore dit que dans un triangle rectangle : a² + b² = :", choices:["c","c²","2c","c³"], answer:1 },
+    { q:"L'aire d'un disque de rayon 7 cm (π≈3,14) est environ :", choices:["43,96 cm²","153,86 cm²","21,98 cm²","87,92 cm²"], answer:1 },
+    { q:"Deux droites parallèles ne se :", choices:["Croisent jamais","Croisent une fois","Croisent deux fois","Sont perpendiculaires"], answer:0 },
+    { q:"Un quadrilatère a combien de côtés ?", choices:["3","4","5","6"], answer:1 },
+    { q:"La médiane d'un triangle est le segment qui relie un sommet :", choices:["À l'angle opposé","Au milieu du côté opposé","Au centre du cercle","À la hauteur"], answer:1 },
+    { q:"L'angle au centre d'un cercle complet est :", choices:["90°","180°","270°","360°"], answer:3 },
+    { q:"Un losange est un quadrilatère dont :", choices:["Les angles sont droits","Les quatre côtés sont égaux","Les diagonales sont égales","Les côtés sont parallèles deux à deux seulement"], answer:1 },
+    { q:"Le périmètre d'un cercle de rayon r est :", choices:["πr","πr²","2πr","4πr"], answer:2 },
+    { q:"Dans un triangle rectangle, le côté opposé à l'angle droit s'appelle :", choices:["Cathète","Médiane","Hypoténuse","Hauteur"], answer:2 },
+    { q:"Deux angles sont complémentaires si leur somme est :", choices:["180°","90°","360°","270°"], answer:1 },
+  ],
+};
+
+// Matières spéciales Terminale
+// Questions Terminale ajoutées à la banque
+Object.assign(QUESTIONS_BANK, {
+
+  'Lois de Newton': [
+    { q:"Quelle est la formule de la deuxième loi de Newton ?", choices:["F = mv","F = ma","F = m/a","F = a/m"], answer:1 },
+    { q:"La première loi de Newton est aussi appelée :", choices:["Principe d'inertie","Principe de gravitation","Principe d'action-réaction","Principe de conservation"], answer:0 },
+    { q:"La troisième loi de Newton stipule que :", choices:["F = ma","Toute action a une réaction égale et opposée","Un corps au repos reste au repos","L'énergie se conserve"], answer:1 },
+    { q:"Un corps soumis à une résultante nulle de forces est :", choices:["En accélération","En décélération","En équilibre ou mouvement rectiligne uniforme","En chute libre"], answer:2 },
+    { q:"L'unité du poids dans le Système International est :", choices:["Kg","Joule","Newton","Pascal"], answer:2 },
+    { q:"Si la masse d'un corps est de 5 kg et son accélération de 3 m/s², la force est :", choices:["8 N","15 N","2 N","1,67 N"], answer:1 },
+    { q:"Que mesure la masse inertielle d'un corps ?", choices:["Sa résistance au changement de vitesse","Son poids","Son volume","Sa densité"], answer:0 },
+    { q:"Dans un référentiel galiléen, un corps libre (sans force) a un mouvement :", choices:["Circulaire","Rectiligne uniforme","Parabolique","Accéléré"], answer:1 },
+    { q:"Le principe fondamental de la dynamique s'écrit vectoriellement :", choices:["ΣF = ma","ΣF = mv","ΣF = m/a","ΣF = mg"], answer:0 },
+    { q:"La force gravitationnelle entre deux masses m₁ et m₂ séparées de r est :", choices:["F = Gm₁m₂/r","F = Gm₁m₂/r²","F = G(m₁+m₂)/r²","F = Gm₁/m₂r²"], answer:1 },
+  ],
+
+  'Lois de Kepler': [
+    { q:"La première loi de Kepler dit que les orbites des planètes sont :", choices:["Circulaires","Elliptiques","Paraboliques","Rectangulaires"], answer:1 },
+    { q:"La deuxième loi de Kepler est aussi appelée :", choices:["Loi des orbites","Loi des aires","Loi des périodes","Loi de gravitation"], answer:1 },
+    { q:"La troisième loi de Kepler relie T² à :", choices:["r","r²","r³","r⁴"], answer:2 },
+    { q:"Le Soleil se trouve à quel endroit d'une orbite elliptique ?", choices:["Au centre","En un foyer","Hors de l'ellipse","En un sommet"], answer:1 },
+    { q:"La loi des aires signifie que le vecteur rayon balaie des aires :", choices:["Croissantes","Décroissantes","Égales en temps égaux","Variables"], answer:2 },
+    { q:"Si T est la période et a le demi-grand axe, la 3ème loi de Kepler donne :", choices:["T² = ka³","T = ka²","T³ = ka²","T² = ka"], answer:0 },
+    { q:"Kepler a formulé ses lois à partir des observations de :", choices:["Galilée","Tycho Brahe","Newton","Copernic"], answer:1 },
+    { q:"Une planète va plus vite quand elle est :", choices:["À l'aphélie","Au périhélie","Au centre de l'orbite","À mi-chemin"], answer:1 },
+    { q:"La constante k dans la 3ème loi de Kepler dépend de :", choices:["La masse de la planète","La masse de l'étoile centrale","La forme de l'orbite","La vitesse initiale"], answer:1 },
+    { q:"Pour la Terre, la période de révolution autour du Soleil est d'environ :", choices:["365 jours","24 heures","30 jours","100 ans"], answer:0 },
+  ],
+
+  'Optique Ondulatoire': [
+    { q:"La diffraction est un phénomène qui se produit quand la lumière :", choices:["Se réfléchit","Passe à travers une fente étroite","Change de milieu","Est absorbée"], answer:1 },
+    { q:"Les franges d'interférence sont obtenues avec :", choices:["Un prisme","Le dispositif des fentes de Young","Un miroir plan","Une lentille"], answer:1 },
+    { q:"L'ordre de grandeur d'une longueur d'onde de lumière visible est :", choices:["1 m","1 cm","1 mm","500 nm"], answer:3 },
+    { q:"La lumière rouge a une longueur d'onde :", choices:["Plus courte que le bleu","Plus longue que le bleu","Égale au bleu","Nulle"], answer:0 },
+    { q:"L'interfrange i dans l'expérience de Young est donnée par :", choices:["i = λL/a","i = aL/λ","i = λa/L","i = L/λa"], answer:0 },
+    { q:"Deux ondes sont cohérentes si elles ont la même :", choices:["Amplitude","Fréquence et phase constante","Longueur d'onde seulement","Direction"], answer:1 },
+    { q:"La dispersion de la lumière blanche par un prisme montre que :", choices:["La lumière est unique","Elle est composée de plusieurs longueurs d'onde","Elle ne se diffracte pas","Elle est monochrome"], answer:1 },
+    { q:"L'effet de diffraction est d'autant plus visible que la fente est :", choices:["Large","Étroite","Carrée","Oblique"], answer:1 },
+    { q:"Dans l'air, la vitesse de la lumière est d'environ :", choices:["3×10⁶ m/s","3×10⁸ m/s","3×10¹⁰ m/s","3×10⁴ m/s"], answer:1 },
+    { q:"L'indice de réfraction n d'un milieu est défini par :", choices:["n = c/v","n = v/c","n = cv","n = c+v"], answer:0 },
+  ],
+
+  'Physique Atomique': [
+    { q:"Le modèle de Bohr décrit l'atome comme :", choices:["Un nuage électronique","Des électrons sur des orbites circulaires quantifiées","Une sphère pleine","Un noyau sans électrons"], answer:1 },
+    { q:"Un photon est émis quand un électron :", choices:["Monte vers un niveau supérieur","Descend vers un niveau inférieur","Quitte l'atome","Entre dans le noyau"], answer:1 },
+    { q:"L'énergie d'un photon est donnée par :", choices:["E = mv²","E = hf","E = mc","E = hλ"], answer:1 },
+    { q:"La constante de Planck h vaut environ :", choices:["6,63×10⁻³⁴ J·s","6,63×10³⁴ J·s","9,11×10⁻³¹ kg","1,6×10⁻¹⁹ C"], answer:0 },
+    { q:"Le spectre d'émission de l'hydrogène est :", choices:["Continu","Constitué de raies discrètes","Blanc","Invisible"], answer:1 },
+    { q:"L'effet photoélectrique montre que la lumière est :", choices:["Une onde continue","Constituée de quanta (photons)","Un son","Une particule massive"], answer:1 },
+    { q:"L'énergie de l'électron dans l'atome d'hydrogène au niveau n est :", choices:["Eₙ = -13,6/n² eV","Eₙ = 13,6×n eV","Eₙ = -n×13,6 eV","Eₙ = 13,6 eV"], answer:0 },
+    { q:"Le nombre quantique principal n décrit :", choices:["La forme de l'orbitale","Le niveau d'énergie","Le spin","La charge"], answer:1 },
+    { q:"L'ionisation d'un atome correspond à :", choices:["Un électron qui descend","Un électron qui monte à n=∞","L'émission d'un photon","La fusion du noyau"], answer:1 },
+    { q:"Quelle expérience a mis en évidence la nature corpusculaire de la lumière ?", choices:["Diffraction","Interférence de Young","Effet photoélectrique","Réfraction"], answer:2 },
+  ],
+
+  'Physique Nucléaire': [
+    { q:"La radioactivité α consiste en l'émission de :", choices:["Un électron","Un noyau d'hélium","Un photon","Un neutron"], answer:1 },
+    { q:"La radioactivité β⁻ correspond à l'émission d'un :", choices:["Proton","Noyau d'hélium","Électron","Positron"], answer:2 },
+    { q:"Le rayonnement γ est :", choices:["Des particules lourdes","Des électrons","Des photons de haute énergie","Des neutrons"], answer:2 },
+    { q:"La demi-vie t₁/₂ d'un noyau radioactif est :", choices:["Le temps pour que toute la substance disparaisse","Le temps pour que la moitié des noyaux se désintègre","La durée de vie d'un noyau","La constante radioactive"], answer:1 },
+    { q:"La loi de décroissance radioactive est :", choices:["N(t) = N₀·e^(λt)","N(t) = N₀·e^(-λt)","N(t) = N₀+λt","N(t) = N₀/λt"], answer:1 },
+    { q:"La fusion nucléaire consiste à :", choices:["Séparer un noyau lourd","Unir deux noyaux légers","Émettre un électron","Capturer un proton"], answer:1 },
+    { q:"La fission nucléaire est utilisée dans :", choices:["Les panneaux solaires","Les centrales nucléaires","Les piles électriques","Les moteurs à essence"], answer:1 },
+    { q:"L'équation E = mc² provient de :", choices:["Newton","Einstein","Bohr","Rutherford"], answer:1 },
+    { q:"Le défaut de masse dans un noyau représente :", choices:["La masse manquante convertie en énergie de liaison","Une erreur de mesure","La masse des électrons","La masse des photons"], answer:0 },
+    { q:"Le nombre de masse A d'un noyau est :", choices:["Le nombre de protons","Le nombre de neutrons","La somme protons + neutrons","La différence protons − neutrons"], answer:2 },
+  ],
+
+  'Chimie Organique': [
+    { q:"La chimie organique étudie principalement les composés de :", choices:["Fer","Carbone","Oxygène","Azote"], answer:1 },
+    { q:"Un alcane est un hydrocarbure :", choices:["Avec une double liaison","Avec une triple liaison","Saturé (liaisons simples)","Aromatique"], answer:2 },
+    { q:"La formule générale des alcanes est :", choices:["CₙH₂ₙ","CₙH₂ₙ₊₂","CₙH₂ₙ₋₂","CₙHₙ"], answer:1 },
+    { q:"Un alcool possède le groupe fonctionnel :", choices:["-COOH","-CHO","-OH","-NH₂"], answer:2 },
+    { q:"La réaction d'estérification produit :", choices:["Un alcool","Un ester et de l'eau","Un acide","Un aldéhyde"], answer:1 },
+    { q:"L'isomère est un composé qui a :", choices:["La même formule développée","La même formule brute mais des structures différentes","Des formules brutes différentes","La même propriété physique"], answer:1 },
+    { q:"Un acide carboxylique a le groupe :", choices:["-OH","-CHO","-COOH","-CO-"], answer:2 },
+    { q:"La saponification est la réaction d'un ester avec :", choices:["Un acide","Une base forte","Un alcool","De l'eau"], answer:1 },
+    { q:"Le méthane CH₄ est le premier terme de la série des :", choices:["Alcènes","Alcynes","Alcanes","Alcools"], answer:2 },
+    { q:"Une liaison double C=C caractérise :", choices:["Les alcanes","Les alcènes","Les alcynes","Les alcools"], answer:1 },
+  ],
+
+  'Cinétique Chimique': [
+    { q:"La cinétique chimique étudie :", choices:["L'équilibre des réactions","La vitesse des réactions chimiques","La thermodynamique","Les liaisons chimiques"], answer:1 },
+    { q:"La vitesse d'une réaction augmente quand la température :", choices:["Diminue","Augmente","Reste constante","Devient nulle"], answer:1 },
+    { q:"Un catalyseur :", choices:["Est consommé dans la réaction","Augmente la vitesse sans se consommer","Diminue la vitesse","Modifie les réactifs"], answer:1 },
+    { q:"La loi de vitesse pour une réaction d'ordre 1 est :", choices:["v = k[A]²","v = k[A]","v = k","v = k/[A]"], answer:1 },
+    { q:"Le temps de demi-réaction t₁/₂ pour une réaction d'ordre 1 est :", choices:["t₁/₂ = ln2/k","t₁/₂ = 1/k[A]₀","t₁/₂ = k/ln2","t₁/₂ = [A]₀/2k"], answer:0 },
+    { q:"Augmenter la concentration des réactifs :", choices:["Diminue la vitesse","N'a aucun effet","Augmente la vitesse","Arrête la réaction"], answer:2 },
+    { q:"L'énergie d'activation est :", choices:["L'énergie libérée","L'énergie minimale pour déclencher la réaction","L'énergie du catalyseur","L'enthalpie de réaction"], answer:1 },
+    { q:"Pour une réaction d'ordre 0, la vitesse est :", choices:["Proportionnelle à [A]","Proportionnelle à [A]²","Indépendante de [A]","Proportionnelle à 1/[A]"], answer:2 },
+    { q:"Un catalyseur hétérogène est :", choices:["Dans la même phase que les réactifs","Dans une phase différente","Un enzyme","Un inhibiteur"], answer:1 },
+    { q:"La constante de vitesse k dépend principalement de :", choices:["La concentration","La pression","La température","Le volume"], answer:2 },
+  ],
+
+  'Mécanique': [
+    { q:"La vitesse moyenne est définie par :", choices:["v = d·t","v = d/t","v = t/d","v = d²/t"], answer:1 },
+    { q:"L'accélération est la variation de :", choices:["Distance par rapport au temps","Vitesse par rapport au temps","Force par rapport à la masse","Énergie par rapport au travail"], answer:1 },
+    { q:"L'énergie cinétique d'un corps de masse m et de vitesse v est :", choices:["Ec = mv","Ec = ½mv²","Ec = mv²","Ec = 2mv"], answer:1 },
+    { q:"L'énergie potentielle de pesanteur est :", choices:["Ep = mgh","Ep = mv²","Ep = ½mgh","Ep = mg/h"], answer:0 },
+    { q:"Le théorème de l'énergie cinétique dit que le travail total est égal à :", choices:["La variation d'énergie potentielle","La variation d'énergie cinétique","La somme des forces","L'accélération multipliée par la masse"], answer:1 },
+    { q:"Un mouvement uniformément accéléré a une accélération :", choices:["Nulle","Variable","Constante non nulle","Infinie"], answer:2 },
+    { q:"La quantité de mouvement p est :", choices:["p = ma","p = mv","p = m/v","p = Ft"], answer:1 },
+    { q:"La conservation de l'énergie mécanique s'applique quand :", choices:["Les frottements sont importants","Seules les forces conservatives travaillent","Il y a des chocs","La vitesse est nulle"], answer:1 },
+    { q:"Dans une chute libre, l'accélération est :", choices:["Nulle","g ≈ 9,8 m/s² vers le bas","Variable","Égale à la vitesse"], answer:1 },
+    { q:"Le travail d'une force F sur un déplacement d est :", choices:["W = F+d","W = F×d×cosθ","W = F/d","W = Fd²"], answer:1 },
+  ],
+
+  'Électricité & Électromagnétisme': [
+    { q:"La loi d'Ohm est :", choices:["U = R/I","U = RI","U = R+I","U = R²I"], answer:1 },
+    { q:"L'unité de la résistance électrique est :", choices:["Volt","Ampère","Ohm","Farad"], answer:2 },
+    { q:"La puissance électrique est :", choices:["P = UI","P = U/I","P = U+I","P = UI²"], answer:0 },
+    { q:"Le champ magnétique B est mesuré en :", choices:["Volt","Tesla","Ampère","Weber"], answer:1 },
+    { q:"La force de Lorentz sur une charge q de vitesse v dans un champ B est :", choices:["F = qvB","F = qv/B","F = qB/v","F = q/vB"], answer:0 },
+    { q:"La loi de Faraday concerne :", choices:["La résistance","L'induction électromagnétique","La capacité","La charge électrique"], answer:1 },
+    { q:"Le flux magnétique à travers une surface S est :", choices:["Φ = B·S·sinθ","Φ = B·S·cosθ","Φ = B/S","Φ = B+S"], answer:1 },
+    { q:"La capacité d'un condensateur est mesurée en :", choices:["Ohm","Henry","Farad","Tesla"], answer:2 },
+    { q:"L'inductance d'une bobine est mesurée en :", choices:["Farad","Henry","Ohm","Tesla"], answer:1 },
+    { q:"La loi de Lenz dit que le courant induit s'oppose à :", choices:["La résistance","La variation de flux qui l'a créé","La tension","La capacité"], answer:1 },
+  ],
+
+  'Circuits RLC RC RL': [
+    { q:"Dans un circuit RC en charge, la tension aux bornes du condensateur évolue de façon :", choices:["Linéaire","Exponentielle croissante","Sinusoïdale","Constante"], answer:1 },
+    { q:"La constante de temps τ d'un circuit RC est :", choices:["τ = R/C","τ = RC","τ = R+C","τ = C/R"], answer:1 },
+    { q:"La constante de temps τ d'un circuit RL est :", choices:["τ = L/R","τ = RL","τ = R/L","τ = R+L"], answer:0 },
+    { q:"La résonance dans un circuit RLC se produit quand :", choices:["R = L","X_L = X_C","X_L = R","X_C = R"], answer:1 },
+    { q:"La fréquence de résonance d'un circuit RLC est :", choices:["f₀ = 1/(2π√LC)","f₀ = 2π√LC","f₀ = RC/2π","f₀ = √(LC)/2π"], answer:0 },
+    { q:"L'impédance d'une bobine pure (résistance nulle) est :", choices:["Z = R","Z = Lω","Z = 1/Cω","Z = R + Lω"], answer:1 },
+    { q:"L'impédance d'un condensateur est :", choices:["Z = Cω","Z = 1/Cω","Z = LC","Z = C/ω"], answer:1 },
+    { q:"En régime sinusoïdal, le courant dans un condensateur pur est en :", choices:["Phase avec la tension","Retard de π/2","Avance de π/2","Opposition de phase"], answer:2 },
+    { q:"En régime sinusoïdal, le courant dans une bobine pure est en :", choices:["Phase avec la tension","Retard de π/2","Avance de π/2","Opposition de phase"], answer:1 },
+    { q:"À la résonance en circuit RLC série, l'impédance totale est :", choices:["Maximale","Nulle","Égale à R","Infinie"], answer:2 },
+  ],
+
+  'Fonctions Numériques': [
+    { q:"La dérivée de f(x) = x³ est :", choices:["3x","3x²","x²","2x³"], answer:1 },
+    { q:"La dérivée de f(x) = sin(x) est :", choices:["cos(x)","-cos(x)","sin(x)","-sin(x)"], answer:0 },
+    { q:"La dérivée de f(x) = cos(x) est :", choices:["sin(x)","-sin(x)","cos(x)","-cos(x)"], answer:1 },
+    { q:"Une fonction est croissante sur un intervalle si sa dérivée est :", choices:["Négative","Nulle","Positive ou nulle","Indéfinie"], answer:2 },
+    { q:"La limite de f(x) = 1/x quand x→+∞ est :", choices:["1","0","+∞","-∞"], answer:1 },
+    { q:"La dérivée de f(x) = u·v est :", choices:["u'v'","u'v + uv'","u'v - uv'","uv'/u'v"], answer:1 },
+    { q:"Un extremum local se trouve là où :", choices:["f'(x) > 0","f'(x) < 0","f'(x) = 0 avec changement de signe","f(x) = 0"], answer:2 },
+    { q:"La dérivée de f(x) = √x est :", choices:["1/√x","1/(2√x)","2√x","√x/2"], answer:1 },
+    { q:"Une fonction convexe a une dérivée seconde :", choices:["Négative","Nulle","Positive","Indéfinie"], answer:2 },
+    { q:"La dérivée de f(x) = 1/x est :", choices:["ln(x)","-1/x²","1/x²","-ln(x)"], answer:1 },
+  ],
+
+  'Fonction Logarithme Népérien': [
+    { q:"ln(1) est égal à :", choices:["1","0","e","∞"], answer:1 },
+    { q:"ln(e) est égal à :", choices:["0","1","e","1/e"], answer:1 },
+    { q:"La propriété ln(a×b) = :", choices:["ln(a)×ln(b)","ln(a)+ln(b)","ln(a)-ln(b)","ln(a)/ln(b)"], answer:1 },
+    { q:"La propriété ln(a/b) = :", choices:["ln(a)/ln(b)","ln(a)-ln(b)","ln(a)+ln(b)","ln(b)-ln(a)"], answer:1 },
+    { q:"ln(aⁿ) = :", choices:["n·ln(a)","ln(a)ⁿ","ln(n)·a","n/ln(a)"], answer:0 },
+    { q:"La dérivée de f(x) = ln(x) est :", choices:["ln(x)","x","1/x","e^x"], answer:2 },
+    { q:"Le domaine de définition de ln(x) est :", choices:["ℝ","[0;+∞[","]0;+∞[","]-∞;0["], answer:2 },
+    { q:"ln(x) → ? quand x → +∞", choices:["+∞","0","1","e"], answer:0 },
+    { q:"La dérivée de f(x) = ln(u) est :", choices:["u'/u","u/u'","1/u","ln(u')"], answer:0 },
+    { q:"ln(e²) est égal à :", choices:["e","2","e²","1/2"], answer:1 },
+  ],
+
+  'Fonction Exponentielle': [
+    { q:"La dérivée de f(x) = eˣ est :", choices:["xeˣ","eˣ","eˣ/x","e"], answer:1 },
+    { q:"e⁰ est égal à :", choices:["0","e","1","∞"], answer:2 },
+    { q:"La propriété eᵃ × eᵇ = :", choices:["eᵃᵇ","eᵃ⁺ᵇ","eᵃ⁻ᵇ","e^(a/b)"], answer:1 },
+    { q:"eᵃ / eᵇ = :", choices:["eᵃ⁺ᵇ","eᵃ⁻ᵇ","eᵃᵇ","e^(a/b)"], answer:1 },
+    { q:"(eᵃ)ⁿ = :", choices:["eᵃ⁺ⁿ","eⁿ/eᵃ","eⁿᵃ","eᵃ⁻ⁿ"], answer:2 },
+    { q:"La limite de eˣ quand x → +∞ est :", choices:["0","1","+∞","e"], answer:2 },
+    { q:"La limite de eˣ quand x → −∞ est :", choices:["+∞","0","-∞","1"], answer:1 },
+    { q:"La dérivée de f(x) = e^(u) est :", choices:["e^u","u'e^u","u·e^u","e^(u')"], answer:1 },
+    { q:"La fonction exponentielle est la réciproque de :", choices:["sin(x)","cos(x)","ln(x)","1/x"], answer:2 },
+    { q:"ln(eˣ) est égal à :", choices:["eˣ","x","ln(x)","1"], answer:1 },
+  ],
+
+});
+function getRandomQuestions(subject, n) {
+  const pool = QUESTIONS_BANK[subject] || [];
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(n, pool.length));
+}
+
+// ============================================================
+//  ÉTAT DU JEU
+// ============================================================
+
+let state = {
+  playerName: 'Élève',
+  currentLevel: 'primaire',
+  currentClassIndex: 0,
+  progress: { primaire: {}, college: {}, lycee: {} },  // classId -> { passed, moyenne }
+  lives: { primaire: 20, college: 20, lycee: 20 },
+  tries: 0,
+  totalMoyennes: [],
+  currentQuestions: {},
+};
+
+let currentExamClass = null;
+let currentMoyenne = null;
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function goToWelcome() { showScreen('welcome'); }
+function goToCorridor() { showScreen('corridor'); updateCorridor(); }
+
+// ============================================================
+//  DÉMARRAGE
+// ============================================================
+
+function startGame(level) {
+  const nameInput = document.getElementById('player-name-input');
+  state.playerName = nameInput.value.trim() || 'Élève';
+  state.currentLevel = level;
+  state.currentClassIndex = 0;
+  goToCorridor();
+}
+
+// ============================================================
+//  COULOIR
+// ============================================================
+
+function switchLevel(level) {
+  state.currentLevel = level;
+  updateCorridor();
+}
+
+function updateCorridor() {
+  const level = state.currentLevel;
+  const levelData = LEVELS[level];
+
+  // Titre
+  document.getElementById('corridor-title').textContent = '🏫 LE COULOIR — ' + levelData.label.toUpperCase();
+  document.getElementById('corridor-level-title').textContent = levelData.label.toUpperCase();
+  document.getElementById('player-greeting').textContent =
+    '👤 ' + state.playerName.toUpperCase() + ' | VIE RESTANTE : ' + '❤️'.repeat(state.lives[level]);
+
+  // Message prof selon niveau
+  const profMsgs = {
+    primaire: '📖 Franchis les 6 portes du Primaire !',
+    college:  '📐 4 portes t\'attendent au Collège !',
+    lycee:    '⚗️ 3 portes jusqu\'au BAC, courage !'
+  };
+  document.getElementById('corridor-prof-msg').textContent = profMsgs[level] || 'Bonne chance !';
+
+  // Onglets
+  document.querySelectorAll('.level-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.classList.contains(level));
+  });
+
+  // Couleur corridor
+  const corridor = document.getElementById('main-corridor');
+  const colors = { primaire:'#1a3a5c,#0d2040,#1a2010', college:'#3a2a0a,#1a1205,#2a1a0a', lycee:'#3a0a2a,#1a0515,#1a0a15' };
+  const [c1,c2,c3] = (colors[level]||colors.primaire).split(',');
+  corridor.style.background = `linear-gradient(180deg, ${c1} 0%, ${c2} 40%, ${c3} 70%, #0d0820 100%)`;
+
+  // Portes
+  const container = document.getElementById('doors-container');
+  container.innerHTML = '';
+  levelData.classes.forEach((cls, idx) => {
+    const passed = state.progress[level][cls.id];
+    const unlocked = idx === 0 || state.progress[level][levelData.classes[idx-1].id];
+    const wrap = document.createElement('div');
+    wrap.className = 'door-wrap';
+
+    let statusIcon = '🔒';
+    let extraClass = 'locked';
+    if (passed) { statusIcon = '✅'; extraClass = 'passed'; }
+    else if (unlocked) { statusIcon = '🚪'; extraClass = 'unlocked'; }
+
+    wrap.innerHTML = `
+      <div class="door ${levelData.doorClass} ${extraClass}" 
+           onclick="${unlocked && !passed ? `openExam('${level}',${idx})` : ''}"
+           style="overflow:visible;">
+        <div class="door-number" style="color:${levelData.color}">${idx+1}</div>
+        <div class="door-icon">${statusIcon}</div>
+        <div class="door-knob"></div>
+        ${unlocked ? `<div class='door-player'>${currentPlayer}</div>` : ''}
+      </div>
+      <div class="door-label">${cls.label}<br>
+        ${passed ? `<span style="color:var(--green)">${(state.progress[level][cls.id]||{}).moyenne||''}✓</span>` : ''}
+        ${!passed && !unlocked ? '<span style="color:#555">🔒</span>' : ''}
+      </div>`;
+    container.appendChild(wrap);
+  });
+
+  // Position
+  const passedCount = Object.keys(state.progress[level]).length;
+  const total = levelData.classes.length;
+  const nextClass = levelData.classes[passedCount];
+  document.getElementById('current-pos-label').textContent =
+    nextClass ? `Devant : ${nextClass.fullName}` : `${levelData.label} terminé ! 🎉`;
+
+  // Progression globale
+  let totalPassed = 0, totalAll = 0;
+  Object.values(LEVELS).forEach(l => {
+    totalAll += l.classes.length;
+    totalPassed += Object.keys(state.progress[l.classes[0].id ? 'primaire' : 'college'] || {}).length;
+  });
+  // Calcul correct
+  let tp = 0;
+  ['primaire','college','lycee'].forEach(lv => {
+    tp += Object.keys(state.progress[lv]).length;
+    totalAll = totalAll; // already set
+  });
+  const pct = Math.round((tp / 13) * 100);
+  document.getElementById('global-progress').style.width = pct + '%';
+}
+
+// ============================================================
+//  EXAMEN
+// ============================================================
+
+function openExam(level, classIndex) {
+  const cls = LEVELS[level].classes[classIndex];
+  currentExamClass = { level, classIndex, cls };
+  currentMoyenne = null;
+
+  document.getElementById('exam-badge').textContent = cls.fullName;
+  const lv = state.lives[level];
+  document.getElementById('exam-lives').textContent = lv > 10 ? '❤️×' + lv : '❤️'.repeat(lv);
+  document.getElementById('exam-mission').textContent = cls.mission;
+  const maxNote = LEVELS[level].maxNote || 20;
+  document.getElementById('requirement-info').innerHTML =
+    `Moyenne requise : <strong>${cls.requirement}/${maxNote}</strong> — Répondez aux QCM pour chaque matière — Vies : ${state.lives[level]}`;
+
+  // Reset affichage
+  const md = document.getElementById('moyenne-display');
+  md.className = 'moyenne-display none';
+  document.getElementById('moyenne-val').textContent = '--';
+  document.getElementById('btn-pass').style.display = 'none';
+
+  // Grille matières — QCM
+  const grid = document.getElementById('subjects-grid');
+  grid.innerHTML = '';
+  // Stocker les questions tirées pour chaque matière
+  state.currentQuestions = {};
+
+  // Construire la liste plate de toutes les questions (subIdx, qIdx, qObj)
+  state.allQuestions = [];
+  state.answers = {}; // subIdx -> correct count
+  cls.subjects.forEach((sub, i) => {
+    const questions = getRandomQuestions(sub.name, 5);
+    state.currentQuestions[i] = questions;
+    state.answers[i] = 0;
+    // champ caché pour stocker la note finale par matière
+    const hidden = document.createElement('input');
+    hidden.type = 'hidden'; hidden.id = 'note-' + i; hidden.value = '';
+    grid.appendChild(hidden);
+    questions.forEach((qObj, qi) => {
+      state.allQuestions.push({ subIdx: i, qIdx: qi, qObj, subName: sub.name });
+    });
+  });
+  state.currentQIndex = 0;
+  state.qCorrects = {}; // subIdx -> correct count
+  cls.subjects.forEach((sub, i) => { state.qCorrects[i] = 0; });
+
+  // Afficher la première question
+  showQuestion(0);
+
+  showScreen('exam');
+}
+
+// Affiche une question à la fois
+function showQuestion(index) {
+  const grid = document.getElementById('subjects-grid');
+  grid.innerHTML = '';
+
+  const all = state.allQuestions;
+  const total = all.length;
+
+  if (index >= total) {
+    // Toutes les questions répondues : calculer les notes et afficher résultat
+    finalizeQCM();
+    return;
+  }
+
+  const { subIdx, qIdx, qObj, subName } = all[index];
+  const cls = currentExamClass.cls;
+
+  // Barre de progression
+  const pct = Math.round((index / total) * 100);
+  const div = document.createElement('div');
+  div.style.cssText = 'width:100%;';
+  div.innerHTML = `
+    <div style="font-family:'Fredoka One',cursive;font-size:0.72rem;letter-spacing:2px;
+                text-transform:uppercase;color:rgba(167,139,250,0.7);margin-bottom:6px;text-align:center;">
+      📚 ${subName} &nbsp;·&nbsp; Question ${index + 1} / ${total}
+    </div>
+    <div style="background:rgba(255,255,255,0.08);border-radius:20px;height:6px;margin-bottom:16px;overflow:hidden;">
+      <div style="height:100%;border-radius:20px;width:${pct}%;
+                  background:linear-gradient(90deg,var(--kente-r),var(--kente-y),var(--kente-g),var(--accent));
+                  transition:width 0.4s;"></div>
+    </div>
+    <div style="background:rgba(167,139,250,0.05);border:1px solid rgba(167,139,250,0.2);
+                padding:16px;border-radius:16px;margin-bottom:12px;">
+      <div style="font-size:0.92rem;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:14px;">
+        ${qObj.q}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;" id="choices-wrap">
+      ${qObj.choices.map((ch, ci) => `
+        <button onclick="answerQuestion(${subIdx},${qIdx},${ci},${qObj.answer},${index})"
+                id="choice-${ci}"
+                style="display:flex;align-items:center;gap:10px;cursor:pointer;
+                       font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;
+                       color:rgba(240,244,255,0.85);padding:10px 14px;border-radius:12px;
+                       border:1.5px solid rgba(255,255,255,0.1);
+                       background:rgba(255,255,255,0.04);transition:all 0.18s;
+                       width:100%;text-align:left;">
+          <span style="font-family:'Fredoka One',cursive;font-size:0.8rem;
+                       color:var(--accent);min-width:22px;">${['A','B','C','D'][ci]}.</span>
+          ${ch}
+        </button>`).join('')}
+      </div>
+    </div>`;
+  grid.appendChild(div);
+}
+
+// ============================================================
+//  MESSAGES D'ENCOURAGEMENT
+// ============================================================
+const ENCOURAGE_WIN = [
+  { emoji: '🔥', msg: 'Excellent ! Tu maîtrises ça !' },
+  { emoji: '⭐', msg: 'Parfait ! Continue sur cette lancée !' },
+  { emoji: '💪', msg: 'Bravo ! Tu es sur la bonne voie !' },
+  { emoji: '🚀', msg: 'Incroyable ! Tu déchires !' },
+  { emoji: '🏆', msg: 'Magnifique ! Rien ne t\'arrête !' },
+  { emoji: '✨', msg: 'Super ! Tu es brillant(e) !' },
+  { emoji: '🎯', msg: 'Dans le mille ! Génie pur !' },
+  { emoji: '👑', msg: 'Roi/Reine de la réponse !' },
+  { emoji: '💡', msg: 'Bien joué ! Ton cerveau carbure !' },
+  { emoji: '🌟', msg: 'Fantastique ! Toute la Guinée est fière !' },
+];
+const ENCOURAGE_LOSE = [
+  { emoji: '💡', msg: 'Pas grave ! Retiens bien la bonne réponse.' },
+  { emoji: '🔄', msg: 'Chaque erreur t\'apprend quelque chose !' },
+  { emoji: '💪', msg: 'Courage ! Les grands ont tous échoué.' },
+  { emoji: '📖', msg: 'Note-le et reviens plus fort !' },
+  { emoji: '🌱', msg: 'Tu grandis à chaque question !' },
+  { emoji: '🎯', msg: 'Focus ! La prochaine sera la bonne !' },
+  { emoji: '🔥', msg: 'Ne lâche rien ! Tu vas y arriver !' },
+  { emoji: '🧠', msg: 'Ton cerveau enregistre… continue !' },
+  { emoji: '⚡', msg: 'Erreur = leçon retenue. En avant !' },
+  { emoji: '🛡️', msg: 'Résiste ! Les champions persistent !' },
+];
+
+function showEncouragement(isCorrect) {
+  // Supprimer tout toast précédent
+  const old = document.getElementById('encourage-toast');
+  if (old) old.remove();
+
+  const pool = isCorrect ? ENCOURAGE_WIN : ENCOURAGE_LOSE;
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+
+  const toast = document.createElement('div');
+  toast.id = 'encourage-toast';
+  toast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    z-index: 9999;
+    background: ${isCorrect
+      ? 'linear-gradient(135deg,rgba(16,185,129,0.95),rgba(5,150,105,0.95))'
+      : 'linear-gradient(135deg,rgba(124,58,237,0.95),rgba(99,102,241,0.95))'};
+    color: white;
+    border-radius: 24px;
+    padding: 22px 32px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    border: 2px solid ${isCorrect ? 'rgba(52,211,153,0.5)' : 'rgba(167,139,250,0.5)'};
+    font-family: 'Nunito', sans-serif;
+    min-width: 220px;
+    max-width: 88vw;
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+    opacity: 0;
+    pointer-events: none;
+  `;
+  toast.innerHTML = `
+    <div style="font-size:2.8rem;line-height:1;margin-bottom:8px;">${pick.emoji}</div>
+    <div style="font-size:1.05rem;font-weight:800;line-height:1.4;">${pick.msg}</div>
+    <div style="margin-top:8px;font-size:0.78rem;opacity:0.75;font-weight:600;letter-spacing:1px;">
+      ${isCorrect ? '✅ BONNE RÉPONSE' : '❌ MAUVAISE RÉPONSE'}
+    </div>
+  `;
+  document.body.appendChild(toast);
+
+  // Animer l'entrée
+  requestAnimationFrame(() => {
+    toast.style.transform = 'translate(-50%, -50%) scale(1)';
+    toast.style.opacity = '1';
+  });
+
+  // Sortie après 900ms
+  setTimeout(() => {
+    toast.style.transform = 'translate(-50%, -50%) scale(0.8)';
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 250);
+  }, 900);
+}
+
+// Réponse à une question
+function answerQuestion(subIdx, qIdx, chosen, correct, qIndex) {
+  const isCorrect = chosen === correct;
+  if (isCorrect) state.qCorrects[subIdx]++;
+
+  // Sons bonne/mauvaise réponse
+  if (isCorrect) SFX.correct(); else SFX.wrong();
+
+  // 🎉 Toast d'encouragement animé
+  showEncouragement(isCorrect);
+
+  // Colorer les boutons
+  const choices = document.querySelectorAll('#choices-wrap button');
+  choices.forEach((btn, ci) => {
+    btn.disabled = true;
+    btn.style.cursor = 'default';
+    if (ci === correct) {
+      btn.style.borderColor = 'var(--green)';
+      btn.style.background = 'rgba(52,211,153,0.15)';
+      btn.style.color = 'var(--green)';
+    } else if (ci === chosen && !isCorrect) {
+      btn.style.borderColor = 'var(--red)';
+      btn.style.background = 'rgba(248,113,113,0.12)';
+      btn.style.color = 'var(--red)';
+    }
+  });
+
+  // Passer à la question suivante après 1300ms (laisse le temps au toast)
+  setTimeout(() => showQuestion(qIndex + 1), 1300);
+}
+
+// Calcule les notes et déclenche la correction finale
+function finalizeQCM() {
+  const cls = currentExamClass.cls;
+  const level = currentExamClass.level;
+  const maxNote = LEVELS[level].maxNote || 20;
+  let total = 0; let count = 0;
+
+  cls.subjects.forEach((sub, i) => {
+    const questions = state.currentQuestions[i];
+    if (!questions || questions.length === 0) return;
+    const note = Math.round((state.qCorrects[i] / questions.length) * maxNote * 100) / 100;
+    const hidden = document.getElementById('note-' + i);
+    if (hidden) hidden.value = note;
+    total += note; count++;
+  });
+
+  currentMoyenne = count > 0 ? +(total / count).toFixed(2) : 0;
+  const required = cls.requirement;
+  const passed = currentMoyenne >= required;
+
+  const md = document.getElementById('moyenne-display');
+  md.className = 'moyenne-display ' + (passed ? 'good' : 'bad');
+  document.getElementById('moyenne-val').textContent = currentMoyenne.toFixed(2);
+  document.getElementById('btn-pass').style.display = passed ? 'inline-block' : 'none';
+
+  // Afficher le résumé dans subjects-grid
+  const grid = document.getElementById('subjects-grid');
+  grid.innerHTML = '';
+  cls.subjects.forEach((sub, i) => {
+    const hidden = document.getElementById('note-' + i);
+    const note = hidden ? parseFloat(hidden.value) || 0 : 0;
+    const half = maxNote / 2;
+    const color = note >= half ? 'var(--green)' : 'var(--red)';
+    const span = document.createElement('div');
+    span.style.cssText = 'display:flex;justify-content:space-between;align-items:center;' +
+      'padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.03);' +
+      'border:1px solid rgba(255,255,255,0.07);font-size:0.85rem;font-weight:700;';
+    span.innerHTML = `<span style="color:rgba(240,244,255,0.7);">📚 ${sub.name}</span>
+      <strong style="color:${color}">${note.toFixed(2)}/${maxNote}</strong>`;
+    grid.appendChild(span);
+  });
+
+  if (!passed) {
+    setTimeout(() => {
+      alert(`😢 Moyenne : ${currentMoyenne.toFixed(2)}/${maxNote}\nRequis : ${required}/${maxNote}\nRévise et réessaie !`);
+    }, 200);
+  }
+}
+
+function highlightChoice() {} // gardé pour compatibilité
+
+function validateNote(input) {
+  let v = parseFloat(input.value);
+  if (input.value === '' || input.value === null) { input.classList.remove('error'); return; }
+  if (isNaN(v) || v < 0 || v > 20) {
+    input.classList.add('error');
+  } else {
+    input.classList.remove('error');
+    if (v > 20) input.value = 20;
+    if (v < 0)  input.value = 0;
+  }
+}
+
+
+function tryPassDoor() {
+  if (currentMoyenne === null) return;
+  const { level, classIndex, cls } = currentExamClass;
+  const passed = currentMoyenne >= cls.requirement;
+
+  if (passed) {
+    // Enregistrer
+    state.progress[level][cls.id] = { passed: true, moyenne: currentMoyenne.toFixed(2) };
+    state.totalMoyennes.push(currentMoyenne);
+    showResult(true, level, classIndex, cls, currentMoyenne);
+  } else {
+    state.lives[level] = Math.max(0, state.lives[level] - 1);
+    showResult(false, level, classIndex, cls, currentMoyenne);
+  }
+}
+
+// ============================================================
+//  RÉSULTAT
+// ============================================================
+
+function showResult(success, level, classIndex, cls, moyenne) {
+  const levelData = LEVELS[level];
+
+  // Vérifier si diplôme
+  const isDiploma = ['CM2','10e','term'].includes(cls.id) && success;
+  const diplomaMap = { CM2:'CEPE', '10e':'BEPC', term:'BAC' };
+  const diplomaKey = diplomaMap[cls.id];
+
+  // Vérifier victoire finale
+  const isFinalVictory = cls.id === 'term' && success;
+
+  // Sons résultat
+  if (isFinalVictory || isDiploma) SFX.diploma();
+  else if (success) SFX.win();
+  else SFX.lose();
+
+  document.getElementById('result-emoji').textContent =
+    isFinalVictory ? '🎓' : isDiploma ? '🏅' : success ? '🎉' : '😢';
+
+  const titleEl = document.getElementById('result-title');
+  titleEl.className = 'result-title ' + (success ? 'win' : 'lose');
+  titleEl.textContent = isFinalVictory ? 'DIPLÔMÉ(E) !' :
+    isDiploma ? 'DIPLÔME OBTENU !' :
+    success ? 'PASSAGE ACCORDÉ !' : 'ÉCHEC…';
+
+  // Message
+  const msgs = success ? PROF_MESSAGES.win : PROF_MESSAGES.lose;
+  const profMsg = isDiploma && diplomaKey ? PROF_MESSAGES.diploma[diplomaKey] :
+                  msgs[Math.floor(Math.random() * msgs.length)];
+
+  const maxNote = LEVELS[level].maxNote || 20;
+  document.getElementById('result-msg').textContent =
+    `${state.playerName}, ta moyenne est de ${moyenne.toFixed(2)}/${maxNote} (requis : ${cls.requirement}/${maxNote})`;
+
+  // Résumé matières
+  const subjects = cls.subjects;
+  let summaryHTML = '';
+  subjects.forEach((sub, i) => {
+    const hiddenOrInput = document.getElementById('note-' + i);
+    if (hiddenOrInput) {
+      const note = parseFloat(hiddenOrInput.value) || 0;
+      const half = maxNote / 2;
+      const color = note >= half ? 'var(--green)' : 'var(--red)';
+      summaryHTML += `<div>${sub.name} : <strong style="color:${color}">${note.toFixed(2)}/${maxNote}</strong></div>`;
+    }
+  });
+  document.getElementById('result-summary').innerHTML = summaryHTML;
+
+  // ── Conseil personnalisé Prof Diallo ──
+  // 1) Message général (victoire/défaite/diplôme)
+  document.getElementById('result-prof-msg').innerHTML =
+    `<em>"${profMsg}"</em>`;
+
+  // 2) Trouver la matière la plus faible
+  const weakBadge = document.getElementById('prof-weak-badge');
+  const profSprite = document.getElementById('prof-sprite-result');
+  const subjectsList = cls.subjects;
+  let weakSubName = null;
+  let weakNote = Infinity;
+  subjectsList.forEach((sub, i) => {
+    const el = document.getElementById('note-' + i);
+    if (el) {
+      const note = parseFloat(el.value) || 0;
+      if (note < weakNote) { weakNote = note; weakSubName = sub.name; }
+    }
+  });
+
+  // Conseils spécifiques par matière
+  const SUBJECT_TIPS = {
+    'Mathématiques':          { goal:'12/20', tip:'Travaille les exercices de calcul chaque soir. 10 min/jour suffisent ! ✏️' },
+    'Calcul Arithmétique':    { goal:'6/10',  tip:'Réfais tes tables de multiplication et de division. Pratique chaque jour ! ✏️' },
+    'Français':               { goal:'12/20', tip:'Lis un texte court chaque jour et note les mots nouveaux. La lecture paie ! 📖' },
+    'Géographie':             { goal:'12/20', tip:'Mémorise la carte de la Guinée et de l\'Afrique. Dessine-la ! 🗺️' },
+    'Histoire':               { goal:'12/20', tip:'Fais une frise chronologique des événements clés. La chronologie aide ! 📅' },
+    'Sciences':               { goal:'6/10',  tip:'Observe autour de toi, puis relie à tes leçons. La curiosité est ta force ! 🔬' },
+    'Géométrie':              { goal:'12/20', tip:'Relis les formules d\'aire et de périmètre chaque soir. Schématise ! 📐' },
+    'Physique-Chimie':        { goal:'12/20', tip:'Apprends les formules clés (Ohm, Newton…). Comprends avant de mémoriser ! ⚗️' },
+    'Biologie':               { goal:'12/20', tip:'Fais des schémas annotés du corps humain et des cellules. Visualise ! 🧬' },
+    'Éducation Civique et Morale': { goal:'12/20', tip:'Relis la Constitution et les droits du citoyen guinéen. C\'est ta vie ! 🇬🇳' },
+    'Économie':               { goal:'12/20', tip:'Relie les concepts économiques à la vie quotidienne en Guinée. 💰' },
+    'Philosophie':            { goal:'12/20', tip:'Lis lentement et reformule chaque idée avec tes propres mots. 💭' },
+    'Anglais':                { goal:'12/20', tip:'Parle anglais 5 min par jour, même seul. La pratique orale est clé ! 🗣️' },
+    'Lois de Newton':         { goal:'12/20', tip:'Applique ΣF=ma à des exemples concrets (voiture, chute…). 🚗' },
+    'Lois de Kepler':         { goal:'12/20', tip:'Mémorise les 3 lois avec un exemple planétaire. T²=ka³ ! 🪐' },
+    'Optique Ondulatoire':    { goal:'12/20', tip:'Fais des schémas de diffraction et d\'interférence. Visualise les ondes ! 🌊' },
+    'Physique Atomique':      { goal:'12/20', tip:'Relis le modèle de Bohr et les niveaux d\'énergie. Pas à pas ! ⚛️' },
+    'Physique Nucléaire':     { goal:'12/20', tip:'Maîtrise les 3 types de radioactivité (α, β, γ) et leurs équations ! ☢️' },
+    'Chimie Organique':       { goal:'12/20', tip:'Apprends les groupes fonctionnels un par un. Alcane, alcool, acide… 🧪' },
+    'Cinétique Chimique':     { goal:'12/20', tip:'Comprends l\'effet de la température sur la vitesse. C\'est logique ! 🌡️' },
+    'Mécanique':              { goal:'12/20', tip:'Utilise le théorème de l\'énergie cinétique sur chaque problème ! 🏎️' },
+    'Électricité & Électromagnétisme': { goal:'12/20', tip:'Refais tous les circuits RC et RL de ton manuel. Schéma par schéma ! 🔌' },
+    'Circuits RLC RC RL':     { goal:'12/20', tip:'Mémorise τ=RC, τ=L/R et la fréquence de résonance. Applique-les ! 🔁' },
+    'Fonctions Numériques':   { goal:'12/20', tip:'Refais le tableau de variations à chaque exercice de dérivée. 📈' },
+    'Fonction Logarithme Népérien': { goal:'12/20', tip:'Connais ln par cœur : ln(1)=0, ln(e)=1, ln(ab)=lna+lnb. 🔢' },
+    'Fonction Exponentielle': { goal:'12/20', tip:'Pratique les équations eˣ = k. Passe au ln des deux côtés ! 📊' },
+  };
+
+  if (weakSubName && subjects.length > 0) {
+    const tipData = SUBJECT_TIPS[weakSubName] || { goal:'12/20', tip:'Revois cette matière attentivement et réessaie !' };
+    const maxNote = LEVELS[level].maxNote || 20;
+    weakBadge.style.display = 'block';
+    weakBadge.innerHTML =
+      `⚠️ Point faible : <strong>${weakSubName}</strong> — ${weakNote.toFixed(2)}/${maxNote}<br>` +
+      `🎯 Objectif : <strong>${tipData.goal}</strong> — ${tipData.tip}`;
+    // Animer le sprite prof (tremblement d'alerte si faible)
+    if (!success) {
+      profSprite.style.animation = 'profBob 0.6s ease-in-out infinite, profShake 0.5s ease 0.3s 3';
+    }
+  } else {
+    weakBadge.style.display = 'none';
+  }
+
+  // Actions
+  const actions = document.getElementById('result-actions');
+  actions.innerHTML = '';
+  if (isFinalVictory) {
+    setTimeout(() => showVictory(), 2000);
+  } else if (success) {
+    // Porte suivante ?
+    const nextIdx = classIndex + 1;
+    const hasNext = nextIdx < levelData.classes.length;
+    const nextLevel = { primaire:'college', college:'lycee', lycee:null }[level];
+
+    if (hasNext) {
+      const nextCls = levelData.classes[nextIdx];
+      actions.innerHTML += `<button class="btn btn-gold" onclick="openExam('${level}',${nextIdx})">
+        ➡️ Porte suivante : ${nextCls.label}</button>`;
+    } else if (nextLevel) {
+      actions.innerHTML += `<button class="btn btn-green" onclick="switchLevelAndGo('${nextLevel}')">
+        🏫 Entrer au ${LEVELS[nextLevel].label}</button>`;
+    }
+    actions.innerHTML += `<button class="btn btn-blue" onclick="goToCorridor()">🏠 Retour couloir</button>`;
+    launchConfetti();
+  } else {
+    if (state.lives[level] > 0) {
+      actions.innerHTML += `<button class="btn btn-gold" onclick="openExam('${level}',${classIndex})">
+        🔄 Réessayer (${state.lives[level]} vie${state.lives[level]>1?'s':''})</button>`;
+    } else {
+      actions.innerHTML += `<button class="btn btn-red" id="btn-regen-lives" onclick="resetLives('${level}',${classIndex})">
+        \u23f3 Recharge en cours...</button>`;
+      setTimeout(() => launchCountdown(level, classIndex), 50);
+      startRegenTimer(level);
+    }
+    actions.innerHTML += `<button class="btn btn-blue" onclick="goToCorridor()">🏠 Retour couloir</button>`;
+  }
+
+  showScreen('result');
+
+  // Animation porte si succès
+  if (success) animateDoorOpen();
+}
+
+function switchLevelAndGo(level) {
+  state.currentLevel = level;
+  goToCorridor();
+}
+
+const MAX_LIVES = 20;
+const REGEN_SECONDS = 30;
+let regenTimers = {};
+let countdownInterval = null;
+
+function startRegenTimer(level) {
+  if (regenTimers[level]) return;
+  regenTimers[level] = setInterval(() => {
+    if (state.lives[level] < MAX_LIVES) {
+      state.lives[level]++;
+      if (state.lives[level] >= MAX_LIVES) {
+        clearInterval(regenTimers[level]);
+        regenTimers[level] = null;
+      }
+    } else {
+      clearInterval(regenTimers[level]);
+      regenTimers[level] = null;
+    }
+  }, REGEN_SECONDS * 1000);
+}
+
+function launchCountdown(level, classIndex) {
+  const btn = document.getElementById('btn-regen-lives');
+  if (!btn) return;
+  if (countdownInterval) clearInterval(countdownInterval);
+  let secondsLeft = REGEN_SECONDS;
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  const tick = () => {
+    const b = document.getElementById('btn-regen-lives');
+    if (!b) { clearInterval(countdownInterval); return; }
+    if (state.lives[level] >= MAX_LIVES || secondsLeft <= 0) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+      b.innerHTML = '\u{1f48a} Reprendre (' + state.lives[level] + ' vie' + (state.lives[level]>1?'s':'') + ')';
+      b.disabled = false;
+      b.style.opacity = '1';
+    } else {
+      secondsLeft--;
+      const bar = Math.round((1 - secondsLeft/REGEN_SECONDS)*10);
+      const filled = '\u2588'.repeat(bar) + '\u2591'.repeat(10-bar);
+      b.innerHTML = '\u23f3 Recharge [' + filled + '] ' + secondsLeft + 's \u2665' + state.lives[level];
+    }
+  };
+  tick();
+  countdownInterval = setInterval(tick, 1000);
+}
+
+function resetLives(level, classIndex) {
+  state.lives[level] = MAX_LIVES;
+  if (regenTimers[level]) { clearInterval(regenTimers[level]); regenTimers[level] = null; }
+  if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+  openExam(level, classIndex);
+}
+
+// ============================================================
+//  VICTOIRE FINALE
+// ============================================================
+
+function showVictory() {
+  document.getElementById('victory-name').textContent =
+    '🌟 ' + state.playerName.toUpperCase() + ' — BACHELIER(ÈRE) 🌟';
+
+  const allMoy = state.totalMoyennes;
+  const avg = allMoy.length > 0 ? (allMoy.reduce((a,b)=>a+b,0)/allMoy.length).toFixed(2) : '—';
+  const totalPassed = ['primaire','college','lycee'].reduce((s,lv) =>
+    s + Object.keys(state.progress[lv]).length, 0);
+
+  document.getElementById('victory-msg').innerHTML =
+    `Tu as traversé <strong>${totalPassed}</strong> portes,<br>
+     décroché ton <strong>CEPE</strong>, ton <strong>BEPC</strong> et ton <strong>BAC</strong> !<br>
+     Moyenne générale : <strong style="color:var(--gold)">${avg}/20</strong><br>
+     La Guinée est fière de toi ! 🇬🇳`;
+
+  document.getElementById('victory-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-val">${totalPassed}</div><div class="stat-lbl">Portes franchies</div></div>
+    <div class="stat-card"><div class="stat-val">${avg}</div><div class="stat-lbl">Moy. générale</div></div>
+    <div class="stat-card"><div class="stat-val">3</div><div class="stat-lbl">Diplômes</div></div>
+    <div class="stat-card"><div class="stat-val">🇬🇳</div><div class="stat-lbl">Guinéen(ne) diplômé(e)</div></div>`;
+
+  showScreen('victory');
+  launchConfetti(200);
+}
+
+// ============================================================
+//  STATS
+// ============================================================
+
+function showStats() {
+  const totalPassed = ['primaire','college','lycee'].reduce((s,lv) =>
+    s + Object.keys(state.progress[lv]).length, 0);
+  const allMoy = state.totalMoyennes;
+  const avg = allMoy.length > 0 ? (allMoy.reduce((a,b)=>a+b,0)/allMoy.length).toFixed(2) : '—';
+  const best = allMoy.length > 0 ? Math.max(...allMoy).toFixed(2) : '—';
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card"><div class="stat-val">${totalPassed}</div><div class="stat-lbl">Classes passées</div></div>
+    <div class="stat-card"><div class="stat-val">${avg}</div><div class="stat-lbl">Moy. générale</div></div>
+    <div class="stat-card"><div class="stat-val">${best}</div><div class="stat-lbl">Meilleure moy.</div></div>
+    <div class="stat-card"><div class="stat-val">${12 - totalPassed}</div><div class="stat-lbl">Restantes</div></div>`;
+
+  let detail = '';
+  ['primaire','college','lycee'].forEach(lv => {
+    const ld = LEVELS[lv];
+    detail += `<strong style="color:${ld.color}">▶ ${ld.label}</strong><br>`;
+    ld.classes.forEach(cls => {
+      const p = state.progress[lv][cls.id];
+      detail += p
+        ? `  ✅ ${cls.fullName} — <span style="color:var(--green)">${p.moyenne}/20</span><br>`
+        : `  🔒 ${cls.fullName}<br>`;
+    });
+    detail += '<br>';
+  });
+  document.getElementById('stats-detail').innerHTML = detail;
+  showScreen('stats');
+}
+
+// ============================================================
+//  RESET
+// ============================================================
+
+function resetGame() {
+  state = {
+    playerName: 'Élève',
+    currentLevel: 'primaire',
+    currentClassIndex: 0,
+    progress: { primaire: {}, college: {}, lycee: {} },
+    lives: { primaire: 20, college: 20, lycee: 20 },
+    tries: 0,
+    totalMoyennes: [],
+    currentQuestions: {},
+  };
+  showScreen('welcome');
+}
+
+// ============================================================
+//  ANIMATIONS
+// ============================================================
+
+function animateDoorOpen() {
+  SFX.doorOpen();
+  const overlay = document.getElementById('door-overlay');
+  const left    = document.getElementById('door-left');
+  const right   = document.getElementById('door-right');
+  overlay.style.display = 'block';
+  left.style.transform  = 'scaleX(1)';
+  right.style.transform = 'scaleX(1)';
+
+  setTimeout(() => {
+    left.style.transform  = 'scaleX(0)';
+    right.style.transform = 'scaleX(0)';
+  }, 300);
+
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    left.style.transform  = 'scaleX(1)';
+    right.style.transform = 'scaleX(1)';
+  }, 1100);
+}
+
+function launchConfetti(count = 80) {
+  const container = document.getElementById('confetti-container');
+  container.innerHTML = '';
+  const colors = ['#f5c518','#00e676','#4fc3f7','#f48fb1','#ce93d8','#ff3d3d','#ffffff'];
+
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.cssText = `
+      left: ${Math.random()*100}%;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      width: ${Math.random()*10+5}px;
+      height: ${Math.random()*10+5}px;
+      border-radius: ${Math.random()>0.5 ? '50%' : '0'};
+      animation-duration: ${Math.random()*2+1.5}s;
+      animation-delay: ${Math.random()*1}s;
+    `;
+    container.appendChild(piece);
+  }
+
+  setTimeout(() => container.innerHTML = '', 5000);
+}
+
+
+// ============================================================
+//  SYSTÈME PERSONNAGE AFRICAIN
+// ============================================================
+const PERSO_GARCONS = [
+  { emoji:'🧒🏿', nom:'Élève' },
+  { emoji:'👦🏿', nom:'Garçon' },
+  { emoji:'🧑🏿‍🎓', nom:'Étudiant' },
+  { emoji:'👨🏿‍🎓', nom:'Bachelier' },
+  { emoji:'🧑🏿‍🏫', nom:'Professeur' },
+  { emoji:'🦸🏿‍♂️', nom:'Héros' },
+];
+const PERSO_FILLES = [
+  { emoji:'👧🏿', nom:'Fille' },
+  { emoji:'🧒🏿', nom:'Élève' },
+  { emoji:'👩🏿‍🎓', nom:'Étudiante' },
+  { emoji:'🧑🏿‍🎓', nom:'Bachelière' },
+  { emoji:'👩🏿‍🏫', nom:'Professeure' },
+  { emoji:'🦸🏿‍♀️', nom:'Héroïne' },
+];
+
+let currentPlayer = '🧒🏿';
+try {
+  const saved = localStorage.getItem('bhds_player_traverse');
+  if (saved) currentPlayer = saved;
+} catch(e) {}
+
+function showPersoModal() {
+  renderPersoGrid('persoGridG', PERSO_GARCONS);
+  renderPersoGrid('persoGridF', PERSO_FILLES);
+  document.getElementById('persoModal').classList.add('show');
+}
+function hidePersoModal() {
+  document.getElementById('persoModal').classList.remove('show');
+}
+function renderPersoGrid(containerId, list) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = list.map((p, i) => `
+    <div class="perso-card ${p.emoji === currentPlayer ? 'selected' : ''}"
+         onclick="selectPlayer('${p.emoji}')">
+      <span class="perso-emoji-big">${p.emoji}</span>
+      <div class="perso-name">${p.nom}</div>
+    </div>
+  `).join('');
+}
+function selectPlayer(emoji) {
+  currentPlayer = emoji;
+  renderPersoGrid('persoGridG', PERSO_GARCONS);
+  renderPersoGrid('persoGridF', PERSO_FILLES);
+  // Mettre à jour le bouton header
+  const btn = document.getElementById('persoBtnCorridor');
+  if (btn) btn.textContent = emoji;
+  // Rafraîchir les portes si couloir visible
+  if (document.getElementById('screen-corridor').classList.contains('active')) {
+    goToCorridor();
+  }
+  try { localStorage.setItem('bhds_player_traverse', emoji); } catch(e) {}
+  SFX.click();
+}
+
+// ============================================================
+//  SOUND ENGINE (Web Audio API — aucun fichier externe)
+// ============================================================
+
+const SFX = (() => {
+  let ctx = null;
+
+  function getCtx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    return ctx;
+  }
+
+  // Utilitaire : joue un oscillateur avec enveloppe
+  function tone({ freq = 440, type = 'sine', attack = 0.01, sustain = 0.08, release = 0.15,
+                   gain = 0.25, freqEnd = null, delay = 0 } = {}) {
+    const ac = getCtx();
+    const t = ac.currentTime + delay;
+    const osc = ac.createOscillator();
+    const env = ac.createGain();
+    osc.connect(env);
+    env.connect(ac.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t);
+    if (freqEnd !== null) osc.frequency.exponentialRampToValueAtTime(freqEnd, t + attack + sustain);
+    env.gain.setValueAtTime(0, t);
+    env.gain.linearRampToValueAtTime(gain, t + attack);
+    env.gain.setValueAtTime(gain, t + attack + sustain);
+    env.gain.exponentialRampToValueAtTime(0.0001, t + attack + sustain + release);
+    osc.start(t);
+    osc.stop(t + attack + sustain + release + 0.05);
+  }
+
+  // Son de clic bouton (tick court)
+  function click() {
+    tone({ freq: 880, type: 'triangle', attack: 0.005, sustain: 0.02, release: 0.06, gain: 0.15 });
+  }
+
+  // Bonne réponse (do-mi-sol ascendant)
+  function correct() {
+    [523, 659, 784].forEach((f, i) => {
+      tone({ freq: f, type: 'triangle', attack: 0.01, sustain: 0.07, release: 0.12, gain: 0.2, delay: i * 0.11 });
+    });
+  }
+
+  // Mauvaise réponse (buzzer descendant)
+  function wrong() {
+    tone({ freq: 320, freqEnd: 160, type: 'sawtooth', attack: 0.01, sustain: 0.12, release: 0.15, gain: 0.18 });
+    tone({ freq: 200, freqEnd: 100, type: 'square',   attack: 0.01, sustain: 0.12, release: 0.15, gain: 0.10, delay: 0.05 });
+  }
+
+  // Victoire / passage de porte (fanfare)
+  function win() {
+    const melody = [523, 659, 784, 1047];
+    melody.forEach((f, i) => {
+      tone({ freq: f, type: 'triangle', attack: 0.01, sustain: 0.1, release: 0.18, gain: 0.22, delay: i * 0.13 });
+    });
+  }
+
+  // Échec (triste)
+  function lose() {
+    const notes = [392, 349, 311, 261];
+    notes.forEach((f, i) => {
+      tone({ freq: f, type: 'sine', attack: 0.01, sustain: 0.14, release: 0.2, gain: 0.18, delay: i * 0.15 });
+    });
+  }
+
+  // Diplôme (fanfare majestueuse)
+  function diploma() {
+    const notes = [523, 659, 784, 880, 1047, 880, 1047];
+    notes.forEach((f, i) => {
+      tone({ freq: f, type: 'triangle', attack: 0.01, sustain: 0.12, release: 0.2, gain: 0.25, delay: i * 0.14 });
+    });
+  }
+
+  // Porte qui s'ouvre (son de grincement positif)
+  function doorOpen() {
+    tone({ freq: 200, freqEnd: 600, type: 'sine', attack: 0.05, sustain: 0.3, release: 0.3, gain: 0.12 });
+    tone({ freq: 300, freqEnd: 800, type: 'triangle', attack: 0.06, sustain: 0.25, release: 0.25, gain: 0.08, delay: 0.05 });
+  }
+
+  return { click, correct, wrong, win, lose, diploma, doorOpen };
+})();
+
+// ============================================================
+//  GESTION MODE SOMBRE / MODE CLAIR
+// ============================================================
+
+(function initTheme() {
+  let saved = null;
+  try { saved = localStorage.getItem('bhds_theme'); } catch(e) {}
+  const isLight = saved === 'light';
+  // Appliquer la classe body immédiatement (avant DOM complet)
+  if (isLight) document.body.classList.add('light-mode');
+  // Mettre à jour l'icône du bouton après chargement du DOM
+  document.addEventListener('DOMContentLoaded', function() {
+    if (isLight) applyLightMode(false);
+    else applyDarkMode(false);
+  });
+})();
+
+function applyLightMode(animate) {
+  document.body.classList.add('light-mode');
+  const btn = document.getElementById('themeToggleBtn');
+  const icon = document.getElementById('themeIcon');
+  if (btn) btn.setAttribute('data-tooltip', 'Mode sombre');
+  if (icon) {
+    if (animate) {
+      icon.style.transition = 'transform 0.22s ease, opacity 0.22s ease';
+      icon.style.transform = 'rotate(360deg) scale(0)';
+      icon.style.opacity = '0';
+      setTimeout(() => {
+        icon.textContent = '🌙';
+        icon.style.transform = 'rotate(0deg) scale(1)';
+        icon.style.opacity = '1';
+      }, 230);
+    } else {
+      icon.textContent = '🌙';
+    }
+  }
+  try { localStorage.setItem('bhds_theme', 'light'); } catch(e) {}
+}
+
+function applyDarkMode(animate) {
+  document.body.classList.remove('light-mode');
+  const btn = document.getElementById('themeToggleBtn');
+  const icon = document.getElementById('themeIcon');
+  if (btn) btn.setAttribute('data-tooltip', 'Mode clair');
+  if (icon) {
+    if (animate) {
+      icon.style.transition = 'transform 0.22s ease, opacity 0.22s ease';
+      icon.style.transform = 'rotate(-360deg) scale(0)';
+      icon.style.opacity = '0';
+      setTimeout(() => {
+        icon.textContent = '☀️';
+        icon.style.transform = 'rotate(0deg) scale(1)';
+        icon.style.opacity = '1';
+      }, 230);
+    } else {
+      icon.textContent = '☀️';
+    }
+  }
+  try { localStorage.setItem('bhds_theme', 'dark'); } catch(e) {}
+}
+
+function toggleTheme() {
+  const isLight = document.body.classList.contains('light-mode');
+  if (isLight) applyDarkMode(true);
+  else applyLightMode(true);
+}
+
+// Attacher les sons à tous les boutons .btn au clic
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (btn && !btn.classList.contains('choice-btn-silent')) {
+    // Les boutons de choix QCM ont leur propre son (correct/wrong)
+    // On ne joue click que pour les vrais boutons de navigation
+    const isChoiceBtn = btn.closest('#choices-wrap');
+    if (!isChoiceBtn) SFX.click();
+  }
+}, true);
+
+// ============================================================
+//  INIT
+// ============================================================
+
+// Mettre à jour le message de bienvenue selon le niveau choisi
+document.querySelectorAll('#card-primaire,#card-college,#card-lycee').forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    const level = card.id.replace('card-','');
+    const msgs = {
+      primaire: "Tu commences depuis le CP1 ! 6 portes t'attendent jusqu'au CEPE ! 📖",
+      college:  "Tu plonges au Collège ! 4 portes de la 7ème jusqu'au BEPC ! 📐",
+      lycee:    "Tu commences au Lycée ! 3 portes de la 11ème jusqu'au BAC ! ⚗️",
+    };
+    document.getElementById('welcome-speech').querySelector('.wa-bubble-inner').innerHTML =
+      `🎓 Bienvenue, élève !<br>Je suis le <strong>Professeur Diallo Boubacar</strong>.<br>${msgs[level]}`;
+  });
+  card.addEventListener('mouseleave', () => {
+    document.getElementById('welcome-speech').querySelector('.wa-bubble-inner').innerHTML =
+      `🎓 Bienvenue, élève !<br>Je suis le <strong>Professeur Diallo Boubacar</strong>.<br>
+       Obtiens ta <strong>moyenne de passage</strong><br>pour franchir chaque porte !`;
+  });
+});
+</script>
+
+<!-- ===== BOUTON MODE SOMBRE/CLAIR ===== -->
+<button class="theme-toggle-btn" id="themeToggleBtn"
+        data-tooltip="Mode clair"
+        onclick="toggleTheme()"
+        aria-label="Basculer mode sombre/clair">
+  <span class="toggle-icon" id="themeIcon">☀️</span>
+</button>
+
+<!-- ===== MODAL PERSONNAGE ===== -->
+<div class="perso-modal" id="persoModal" onclick="if(event.target===this)hidePersoModal()">
+  <div class="perso-box">
+    <div class="perso-title">👑 Choisis ton aventurier</div>
+    <div class="perso-subtitle">Joueur ou joueuse africain(e)</div>
+    <div class="perso-group-label">👦🏿 Garçons</div>
+    <div class="perso-grid" id="persoGridG"></div>
+    <div class="perso-group-label">👧🏿 Filles</div>
+    <div class="perso-grid" id="persoGridF"></div>
+    <button class="perso-close btn" onclick="hidePersoModal()">✅ Confirmer</button>
+  </div>
+</div>
+
+<!-- ===== BADGE HORS LIGNE ===== -->
+<div id="offline-badge" style="
+  display:none;
+  position:fixed;top:14px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,#059669,#065f46);
+  color:#fff;font-family:'Fredoka One',cursive;
+  font-size:0.75rem;letter-spacing:1px;padding:6px 18px;
+  border-radius:30px;border:1.5px solid rgba(52,211,153,0.5);
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);z-index:9999;
+  white-space:nowrap;animation:fadeSlide 0.4s ease;
+">📡 Mode Hors Ligne — Jeu disponible !</div>
+
+<script>
+// ============================================================
+//  MODE HORS LIGNE — Détection réseau uniquement
+//  (Service Worker blob supprimé : non supporté par les navigateurs modernes
+//   depuis un fichier local. Le jeu est nativement hors ligne via localStorage.)
+// ============================================================
+(function() {
+
+  // ===== DÉTECTION HORS LIGNE =====
+  const badge = document.getElementById('offline-badge');
+
+  function updateOnlineStatus() {
+    if (!navigator.onLine) {
+      if (badge) { badge.style.display = 'block'; }
+    } else {
+      if (badge) { badge.style.display = 'none'; }
+    }
+  }
+
+  window.addEventListener('online',  updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus(); // Vérifier immédiatement
+
+  // ===== CACHE MANUEL (localStorage) : sauvegarde complète du jeu =====
+  // Le jeu utilise déjà localStorage pour la progression — il est donc
+  // nativement hors ligne pour les données. Rien à ajouter.
+
+})();
+</script>
+
+</body></html>
